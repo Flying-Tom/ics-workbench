@@ -1,5 +1,12 @@
 #include <stdint.h>
 
+uint64_t mod(uint64_t x, uint64_t y)
+{
+    while (x>=y)
+        x-=y;
+    return x;
+}
+
 uint64_t addmod(uint64_t a, uint64_t b, uint64_t m)
 {
     uint64_t sum = 0;
@@ -7,7 +14,7 @@ uint64_t addmod(uint64_t a, uint64_t b, uint64_t m)
     {
         sum = a ^ b;
         b = (a & b) << 1;
-        a = sum & m;
+        a = mod(sum,m);
     }
     return a;
 }
