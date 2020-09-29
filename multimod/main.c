@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <inttypes.h>
-
+#include "./multimod.c"
 uint64_t multimod(uint64_t, uint64_t, uint64_t);
 
 void test(uint64_t a, uint64_t b, uint64_t m) {
