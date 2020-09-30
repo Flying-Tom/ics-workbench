@@ -6,8 +6,8 @@ uint64_t mod(uint64_t x, uint64_t y)
     {
         uint64_t ytemp = y;
         while (x>=ytemp)
-        ytemp >> = 1;
-        x-=ytemp;
+        ytemp <<= 1;
+        x-=(ytemp >> 1);
     }
     return x;
 }
