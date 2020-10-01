@@ -2,19 +2,21 @@
 
 uint64_t mod(uint64_t x, uint64_t y)
 {
-    while(x>y)
-    {
-        uint64_t ytemp = y;
-        while (x>=ytemp)
+    uint64_t xtemp = x >> 1,ytemp = y;
+    while (xtemp >= ytemp)
         ytemp <<= 1;
-        x-=(ytemp >> 1);
+    while (ytemp >= y)
+    {
+        if(x >= ytemp)
+            x -= ytemp;
+        ytemp >>= 1;
     }
     return x;
 }
 
 uint64_t addmod(uint64_t a, uint64_t b, uint64_t m)
 {
-    return mod(mod(a,m)+mod(b,m),m);
+    return mod(mod(a, m) + mod(b, m), m);
 }
 
 uint64_t multimod(uint64_t a, uint64_t b, uint64_t m)
