@@ -1,5 +1,5 @@
 #include <stdint.h>
-#define MAXN 10000000000000000
+#define MAXN 0xffffffffffffffff
 
 uint64_t mod(uint64_t x, uint64_t y)
 {
@@ -17,7 +17,7 @@ uint64_t mod(uint64_t x, uint64_t y)
 
 uint64_t addmod(uint64_t a, uint64_t b, uint64_t m)
 {
-    uint64_t t=mod(a+b,m);
+    uint64_t t=mod(a+b,m)+1;
     if(a+b<a || a+b<b)
         return mod(mod(t, m) + mod(MAXN, m), m);
     else
@@ -26,13 +26,18 @@ uint64_t addmod(uint64_t a, uint64_t b, uint64_t m)
 
 uint64_t multimod(uint64_t a, uint64_t b, uint64_t m)
 {
-    uint64_t ans = 0;
+    uint64_t ans = 0,cnt=0;
     while (a)
     {
         if (a & 1)
-            ans = addmod(ans, b, m);
-        b <<= 1;
+        {    
+            uint64_t btemp=b,cnttemp=cnt;
+            while(cnttemp--)
+                btemp = addmod(btemp, btemp, m);
+            ans = addmod(ans, btemp, m);
+        }
         a >>= 1;
+        cnt++;
     }
     return ans;
 }
