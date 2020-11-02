@@ -33,7 +33,7 @@ int asm_popcnt(uint64_t x)
         "add $0x1,%ecx;"
         "cmp $0x40,%ecx;"
         "jne .L1;"
-        : "=r"(s)
+        : "+r"(s)
         );
     return s;
 }
