@@ -20,7 +20,7 @@ int asm_popcnt(uint64_t x)
         if ((x >> i) & 1)
             s++;
     }
-    return s;
+    return s;*/
 }
 
 void *asm_memcpy(void *dest, const void *src, size_t n)
