@@ -21,6 +21,7 @@ int asm_popcnt(uint64_t x)
         if ((x >> i) & 1)
             s++;
     }*/
+    /*
     asm(
         ".L1:"
         "mov $0x0,%ecx;"
@@ -30,7 +31,7 @@ int asm_popcnt(uint64_t x)
         "and $0x1,%edx;"
         "add %edx,%eax;"
         "add $0x1,%ecx;"
-        "cmp $0x40,%ecx;");
+        "cmp $0x40,%ecx;");*/
     return s;
 }
 
