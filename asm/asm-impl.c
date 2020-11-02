@@ -41,11 +41,11 @@ int asm_popcnt(uint64_t x)
 void *asm_memcpy(void *dest, const void *src, size_t n)
 {
     //return memcpy(dest, src, n);
-    /*char *dp = dest;
+    char *dp = dest;
     const char *sp = src;
     while (n--)
-        *dp++ = *sp++;*/
-    asm(
+        *dp++ = *sp++;
+    /*asm(
         "movq %%rdi,%%rax;"
         "test   %rdx,%rdx;"
         "je     .L2"
@@ -59,7 +59,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         ".L2:"
         "retq;"
         : "+r"(s)
-        : "r"(x));
+        : "r"(x));*/
     return dest;
 }
 
