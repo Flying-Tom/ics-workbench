@@ -22,7 +22,7 @@ int asm_popcnt(uint64_t x)
             s++;
     }*/
     asm(
-        ".L1;"
+        ".L1:"
         "mov $0x0,%ecx;"
         "mov $0x0,%eax;"
         "mov %rdi,%rdx;"
