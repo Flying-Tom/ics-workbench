@@ -8,7 +8,9 @@ int64_t asm_add(int64_t a, int64_t b)
         "addq %1, %2;"
         "movq %2, %0;"
         : "=r"(temp)
-        : "r"(a), "r"(b));
+        : "r"(a), "r"(b)
+
+    );
     return temp;
 }
 
@@ -28,8 +30,9 @@ int asm_popcnt(uint64_t x)
         "jne .L1;"
         : "+r"(s)
         : "r"(x)
-        : "ecx","rdx","edx"
-        );
+        : "ecx", "rdx", "edx"
+
+    );
     return s;
 }
 
@@ -49,7 +52,8 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         : "+r"(dest)
         : "r"(src), "r"(n)
         : "ecx", "rcx", "rcx"
-        );
+
+    );
     return dest;
 }
 
