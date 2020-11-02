@@ -21,6 +21,7 @@ int asm_popcnt(uint64_t x)
         if ((x >> i) & 1)
             s++;
     }*/
+    asm
     return s;
 }
 
