@@ -48,7 +48,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
     asm(
         "movq   %0,%%rax;"
         "testq   %2,%2;"
-        "je     .L2"
+        "je     .L2;"
         "movl    $0x0,%%ecx;"
         ".L1:"
         "movzbl (%1,%%rcx,1),%%r8d;"
