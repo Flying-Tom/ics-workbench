@@ -49,7 +49,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         "mov   %0,%%rax;"
         "test   %2,%2;"
         "je     .L2;"
-        "movl    $0x0,%%ecx;"
+        "mov    $0x0,%%ecx;"
         ".L3:"
         "movzbl (%1,%%rcx,1),%%r8d;"
         "mov    %%r8b,(%%rax,%%rcx,1);"
