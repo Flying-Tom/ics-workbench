@@ -14,7 +14,7 @@ int64_t asm_add(int64_t a, int64_t b)
 
 int asm_popcnt(uint64_t x)
 {
-    int s = 0;
+    int s;
     /*
     for (int i = 0; i < 64; i++)
     {
