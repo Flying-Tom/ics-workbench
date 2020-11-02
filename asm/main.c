@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+int a[8]={1,2,3,4,5};
+int b[8]={};
 int main()
 {
     asm_jmp_buf buf;
