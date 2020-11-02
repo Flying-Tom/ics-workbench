@@ -23,9 +23,9 @@ int asm_popcnt(uint64_t x)
     }*/
     
     asm(
-        ".L1:"
         "movl $0x0,%%ecx;"
         "movl $0x0,%0;"
+        ".L1:"
         "movq %1,%%rdx;"
         "shrq %%cl,%%rdx;"
         "andl $0x1,%%edx;"
