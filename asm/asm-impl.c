@@ -25,14 +25,16 @@ int asm_popcnt(uint64_t x)
     asm(
         ".L1:"
         "mov $0x0,%ecx;"
-        "mov $0x0,%eax;"
+        "mov $0x0,%0;"
         "mov %rdi,%rdx;"
         "shr %cl,%rdx;"
         "and $0x1,%edx;"
-        "add %edx,%eax;"
+        "add %edx,%0;"
         "add $0x1,%ecx;"
         "cmp $0x40,%ecx;"
-        "jne .L1;");
+        "jne .L1;"
+        : "=r"(s)
+        );
     return s;
 }
 
