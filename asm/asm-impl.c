@@ -58,7 +58,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         "jne    .L1;"
         ".L2:"
         "retq;"
-        : "=r"(ddest)
+        : "=r"(dest)
         : "r"(src), "r"(n));
     return dest;
 }
