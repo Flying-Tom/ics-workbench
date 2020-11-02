@@ -46,7 +46,6 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
     while (n--)
         *dp++ = *sp++;*/
     asm(
-        //"mov   %0,%%rax;"
         "test   %2,%2;"
         "je     .L2;"
         "mov    $0x0,%%ecx;"
@@ -59,6 +58,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         ".L2:"
         : "+r"(dest)
         : "r"(src), "r"(n));
+        : "ecx","rcx","r8d","r8b","rcx"
     return dest;
 }
 
