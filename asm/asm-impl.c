@@ -46,7 +46,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
     while (n--)
         *dp++ = *sp++;*/
     asm(
-        "mov   %0,%%rax;"
+        //"mov   %0,%%rax;"
         "test   %2,%2;"
         "je     .L2;"
         "mov    $0x0,%%ecx;"
