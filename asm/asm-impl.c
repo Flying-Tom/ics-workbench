@@ -21,7 +21,16 @@ int asm_popcnt(uint64_t x)
         if ((x >> i) & 1)
             s++;
     }*/
-    asm
+    asm(
+        "mov $0x0,%ecx;"
+        "mov $0x0,%eax;"
+        "mov %rdi,%rdx;"
+        "shr %cl,%rdx;"
+        "and $0x1,%edx;"
+        "add %edx,%eax;"
+        "add $0x1,%ecx;"
+        "cmp $0x40,%ecx;"
+        "jne    1186 <asm_popcnt+0xa>");
     return s;
 }
 
