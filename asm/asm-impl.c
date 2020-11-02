@@ -27,7 +27,7 @@ int asm_popcnt(uint64_t x)
         "movl $0x0,%%ecx;"
         "movl $0x0,%0;"
         "movq %1,%%rdx;"
-        "shrq %%ecx,%%rdx;"
+        "shrq %%cl,%%rdx;"
         "andl $0x1,%%edx;"
         "addl %%edx,%0;"
         "addl $0x1,%%ecx;"
