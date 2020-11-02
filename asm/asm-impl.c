@@ -53,7 +53,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         ".L3:"
         "movzbl (%1,%%rcx,1),%%r8d;"
         "mov    %%r8b,(%%rax,%%rcx,1);"
-        "addq    $0x1,%%rcx;"
+        "add    $0x1,%%rcx;"
         "cmpq    %2,%%rcx;"
         "jne    .L3;"
         ".L2:"
