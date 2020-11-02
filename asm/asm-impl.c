@@ -58,7 +58,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         ".L2:"
         : "+r"(dest)
         : "r"(src), "r"(n)
-        : "ecx", "rcx", "r8d", "r8b", "rcx"
+        : "ecx", "rcx", "rcx"
         );
     return dest;
 }
