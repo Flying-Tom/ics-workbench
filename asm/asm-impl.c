@@ -52,10 +52,10 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         "movl    $0x0,%%ecx;"
         ".L3:"
         "movzbl (%1,%%rcx,1),%%r8d;"
-        "movq    %%r8b,(%%rax,%%rcx,1);"
+        "movl    %%r8b,(%%rax,%%rcx,1);"
         "addq    $0x1,%%rcx;"
         "cmpq    %2,%%rcx;"
-        "jne    .L1;"
+        "jne    .L3;"
         ".L2:"
         "retq;"
         : "+r"(dest)
