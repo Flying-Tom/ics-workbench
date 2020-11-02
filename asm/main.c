@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-int a[8]={1,2,3,4,5};
+int a[8]={5,3,2,1,4};
 int b[8]={};
 int main()
 {
