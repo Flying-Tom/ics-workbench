@@ -30,7 +30,7 @@ int asm_popcnt(uint64_t x)
         "add %edx,%eax;"
         "add $0x1,%ecx;"
         "cmp $0x40,%ecx;"
-        "jne    1186 <asm_popcnt+0xa>");
+        );
     return s;
 }
 
