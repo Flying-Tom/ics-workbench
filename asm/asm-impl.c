@@ -26,14 +26,15 @@ int asm_popcnt(uint64_t x)
         ".L1:"
         "movl $0x0,%%ecx;"
         "movl $0x0,%0;"
-        "movq %%rdi,%%rdx;"
-        "shrq %%cl,%%rdx;"
+        "movq %1,%%rdx;"
+        "shrq %%ecx,%%rdx;"
         "andl $0x1,%%edx;"
         "addl %%edx,%0;"
         "addl $0x1,%%ecx;"
         "cmpl $0x40,%%ecx;"
         "jne .L1;"
         : "+r"(s)
+        ："r"(x)
         );
     return s;
 }
