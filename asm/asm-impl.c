@@ -50,7 +50,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
         "testq   %2,%2;"
         "je     .L2;"
         "movl    $0x0,%%ecx;"
-        ".L1:"
+        ".L3:"
         "movzbl (%1,%%rcx,1),%%r8d;"
         "movq    %%r8b,(%%rax,%%rcx,1);"
         "addq    $0x1,%%rcx;"
