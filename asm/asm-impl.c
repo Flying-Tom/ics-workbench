@@ -34,7 +34,7 @@ int asm_popcnt(uint64_t x)
         "cmpl $0x40,%%ecx;"
         "jne .L1;"
         : "+r"(s)
-        ："r"(x)
+        :"r"(x)
         );
     return s;
 }
