@@ -6,7 +6,7 @@ int a[8]={5,3,2,1,4};
 int b[8]={};
 int main()
 {
-    asm_jmp_buf buf;
+    //asm_jmp_buf buf;
     int r = asm_setjmp(buf);
     asm_longjmp(buf, 123);
     /*
