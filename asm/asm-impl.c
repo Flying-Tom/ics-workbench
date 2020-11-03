@@ -94,7 +94,7 @@ int asm_setjmp(asm_jmp_buf env)
         "pushq $0x0;"
         "jmpq   .plt;"
         "longjmp:"
-        "jmpq   *0x2fd2(%rip);"
+        "jmpq   *0x2fd2(%%rip);"
         "pushq  $0x2;"
         "jmpq   .plt;"
         );
