@@ -99,7 +99,7 @@ int asm_setjmp(asm_jmp_buf env)
         "jmpq   .plt;"
         );
     asm(
-        "sub    $0x8,%%rsp;"
+        "subq    $0x8,%%rsp;"
         "callq  _setjmp;"
         "addq    $0x8,%%rsp;"
         "retq;"
