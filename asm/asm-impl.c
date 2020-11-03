@@ -1,5 +1,5 @@
 #include "asm.h"
-#include <string.h>
+//#include <string.h>
 
 int64_t asm_add(int64_t a, int64_t b)
 {
@@ -59,8 +59,8 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
 
 int asm_setjmp(asm_jmp_buf env)
 {
-    return setjmp(env);/*
-    asm(
+    return setjmp(env);
+    /*asm(
         "xor %%esi,%%esi;"
         "mov %%rbx,(%%rdi);"
         "mov %%rbp,%%rax;"
@@ -84,6 +84,15 @@ int asm_setjmp(asm_jmp_buf env)
         "test %%esi,%%esi;"
 
     );*/
+    asm(
+        "jmpq *0x2fe2(%%rip);"
+        "pushq $0x0;"
+        "jmpq .L4;"
+        ".L4:"
+        "pushq  0x2fe2(%%rip);"
+        "jmpq   *0x2fe4(%%rip);"
+        "nopl   0x0(%%rax)"
+    );
 }
 
 void asm_longjmp(asm_jmp_buf env, int val)
