@@ -104,6 +104,7 @@ int asm_setjmp(asm_jmp_buf env)
         "add    $0x8,%%rsp;"
         "retq;"
         );
+    return 0;
 }
 
 void asm_longjmp(asm_jmp_buf env, int val)
