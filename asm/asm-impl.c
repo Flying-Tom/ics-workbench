@@ -85,7 +85,7 @@ int asm_setjmp(asm_jmp_buf env)
 
     );*/
     asm(
-        "<.plt>:"
+        ".plt:"
         "pushq  0x2fe2(%%rip);"
         "jmpq   *0x2fe4(%%rip);"
         "nopl   0x0(%%rax)"
