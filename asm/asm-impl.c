@@ -83,7 +83,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov %%rdi,%%rbx;"
         "test %%esi,%%esi;"
 
-    );*/
+    );
     asm(
         ".plt:"
         "pushq  0x2fe2(%%rip);"
@@ -103,6 +103,21 @@ int asm_setjmp(asm_jmp_buf env)
         "callq  _setjmp;"
         "addq    $0x8,%%rsp;"
         "retq;"
+        );*/
+    asm(
+        "push   $0;"
+        "add    $4,%%esp;"
+        "mov    0x4(%%esp),%%ecx;"
+        "mov    0(%%esp),%%edx;"
+        "mov    %%edx,0x0(%%ecx);"
+        "mov    %%ebx,0x4(%%ecx);"
+        "mov    %%esp,0x8(%%ecx);"
+        "mov    %%ebp,0xc(%%ecx);"
+        "mov    %%esi,0x10(%%ecx);"
+        "mov    %%edi,0x14(%%ecx);"
+        "mov    %%eax,0x18(%%ecx);"
+        "xor    %%eax,%%eax;"
+        "ret"
         );
     return 0;
 }
