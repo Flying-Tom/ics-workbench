@@ -89,14 +89,14 @@ int asm_setjmp(asm_jmp_buf env)
         "pushq  0x2fe2(%%rip);"
         "jmpq   *0x2fe4(%%rip);"
         "nopl   0x0(%%rax)"
-        "<_setjmp@plt>:"
+        "_setjmp@plt:"
         "jmpq *0x2fe2(%%rip);"
         "pushq $0x0;"
         "jmpq <.plt>;"
-        "<longjmp@plt>:"
+        "longjmp@plt:"
         "jmpq   *0x2fd2(%rip);"
         "pushq  $0x2;"
-        "jmpq   <.plt>;"
+        "jmpq   .plt;"
         );
     asm(
         "sub    $0x8,%%rsp;"
