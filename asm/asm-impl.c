@@ -116,10 +116,10 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %ebp,0xc(%ecx);"
         "mov    %esi,0x10(%ecx);"
         "mov    %edi,0x14(%ecx);"
-        "mov    %eax,0x18(%ecx);"
-        "xor    %eax,%eax;"
+        "mov    %0,0x18(%ecx);"
+        "xor    %0,%0;"
         "ret"
-        : "=r"(temp)
+        : "+r"(temp)
         );
     return temp;
 }
