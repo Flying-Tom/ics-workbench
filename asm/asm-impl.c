@@ -108,11 +108,11 @@ int asm_setjmp(asm_jmp_buf env)
     asm(
         "push   $0;"
         "add    $4,%%esp;"
-        "mov    0x4(%%esp),%%ecx;"
-        "mov    0x0(%%esp),%%edx;"
+        "mov    0x4(%1),%%ecx;"
+        "mov    0x0(%1),%%edx;"
         "mov    %%edx,0x0(%%ecx);"
         "mov    %%ebx,0x4(%%ecx);"
-        "mov    %%esp,0x8(%%ecx);"
+        "mov    %1,0x8(%%ecx);"
         "mov    %%ebp,0xc(%%ecx);"
         "mov    %%esi,0x10(%%ecx);"
         "mov    %%edi,0x14(%%ecx);"
@@ -120,6 +120,7 @@ int asm_setjmp(asm_jmp_buf env)
         "xor    %0,%0;"
         "ret"
         : "+r"(temp)
+        : "r"(env)
         );
     return temp;
 }
