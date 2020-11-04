@@ -105,7 +105,7 @@ int asm_setjmp(asm_jmp_buf env)
         "retq;"
         );*/
         
-    int temp=0;
+    int64_t temp=0;
     asm(
         "push   %1;"
         "mov    %1,(%0);"
