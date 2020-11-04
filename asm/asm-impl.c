@@ -109,8 +109,7 @@ int asm_setjmp(asm_jmp_buf env)
     asm(
         "push   %1;"
         "mov    %1,(%0);"
-        "mov    %%rdx,0(%0);"
-        "mov    %%rbx,8(%0);"
+        "mov    %%rsp,8(%0);"
         "mov    %%rbp,16(%0);"
         "mov    %%rbx,24(%0);"
         "mov    %%r12,32(%0);"
