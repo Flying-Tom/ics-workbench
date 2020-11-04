@@ -104,13 +104,13 @@ int asm_setjmp(asm_jmp_buf env)
         "addq    $0x8,%%rsp;"
         "retq;"
         );*/
-        /*
+        
     int temp=0;
     asm(
         //"push   $0;"
         //"add    $4,%%rsp;"
-        "mov    %1,%%rcx;"
-        //"mov    0x0(%1),%%rdx;"
+        "mov    0x0(%%rsp),%%rcx;"
+        "mov    0x0(%%rsp),%%rdx;"
         "mov    %%rdx,0(%%rcx);"
         "mov    %%rbx,8(%%rcx);"
         "mov    %1,16(%%rcx);"
@@ -123,7 +123,7 @@ int asm_setjmp(asm_jmp_buf env)
         : "+r"(temp)
         : "r"(env)
         );
-    return temp;*/
+    return temp;
 }
 
 void asm_longjmp(asm_jmp_buf env, int val)
