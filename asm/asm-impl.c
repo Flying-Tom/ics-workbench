@@ -109,8 +109,8 @@ int asm_setjmp(asm_jmp_buf env)
     asm(
         //"push   $0;"
         //"add    $4,%%rsp;"
-        "mov    0x0(%%rsp),%%rcx;"
-        "mov    0x0(%%rsp),%%rdx;"
+        "mov    (%%rsp),%%rcx;"
+        "mov    (%%rsp),%%rdx;"
         "mov    %%rdx,0(%%rcx);"
         "mov    %%rbx,8(%%rcx);"
         "mov    %1,16(%%rcx);"
