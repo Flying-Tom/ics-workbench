@@ -107,28 +107,28 @@ int asm_setjmp(asm_jmp_buf env)
         
     int temp=0;
     asm(
-        //"push   $0;"
-        //"add    $4,%%rsp;"
-        "mov    (%%rsp),%%rcx;"
-        "mov    (%%rsp),%%rdx;"
-        "mov    %%rdx,0(%%rcx);"
-        "mov    %%rbx,8(%%rcx);"
-        "mov    %1,16(%%rcx);"
-        "mov    %%rbp,24(%%rcx);"
-        "mov    %%rsi,32(%%rcx);"
-        "mov    %%rdi,40(%%rcx);"
-        "mov    %0,48(%%rcx);"
-        "xor    %0,%0;"
-        "ret"
-        : "+r"(temp)
-        : "r"(env)
+        "push   %%rcx;"
+        "mov    %%rcx,(%%rdi);"
+        "mov    %%rdx,0(%%rdi);"
+        "mov    %%rbx,8(%%rdi);"
+        "mov    %%rbp,16(%%rcx);"
+        "mov    %%rbx,24(%%rdi);"
+        "mov    %%r12,32(%%rdi);"
+        "mov    %%r13,40(%%rdi);"
+        "mov    %%r14,48(%%rcx);"
+        "mov    %%r15,56(%%rcx);"
+        "xor    %%rax,%%rax;"
+        "jmp    *%%rcx"
+        //: "+r"(temp)
+        //: "r"(env)
         );
     return temp;
 }
 
 void asm_longjmp(asm_jmp_buf env, int val)
 {
-    //longjmp(env, val);
+    longjmp(env, val);
+    /*
     asm(
 
         "mov    0x30(%%rdi),%%r8;"
@@ -151,5 +151,5 @@ void asm_longjmp(asm_jmp_buf env, int val)
         "jmpq    *%%rdx;"
         //: "+r"(temp)
         ///: "r"(env)
-        );
+        );*/
 }
