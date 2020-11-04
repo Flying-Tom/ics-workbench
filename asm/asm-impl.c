@@ -59,7 +59,7 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
 
 int asm_setjmp(asm_jmp_buf env)
 {
-    //return setjmp(env);
+    return setjmp(env);
     /*asm(
         "xor %%esi,%%esi;"
         "mov %%rbx,(%%rdi);"
@@ -128,5 +128,28 @@ int asm_setjmp(asm_jmp_buf env)
 
 void asm_longjmp(asm_jmp_buf env, int val)
 {
-    longjmp(env, val);
+    //longjmp(env, val);
+    asm(
+
+        "mov    0x30(%%rdi),%%r8;"
+        "mov    0x8(%%rdi),%r9;"
+        "mov    0x38(%%rdi),%%rdx;"
+        "ror    $0x11,%%r8;"
+        "xor    %fs:0x30,%%r8;"
+        "ror    $0x11,%%r9;"
+        "xor    %fs:0x30,%%r9;"
+        "ror    $0x11,%%rdx;"
+        "xor    %fs:0x30,%%rbx;"
+        "mov    (%%rdi),%rbx;"
+        "mov    0x10(%%rdi),%%r12;"
+        "mov    0x18(%%rdi),%%r13;"
+        "mov    0x20(%%rdi),%%r14;"
+        "mov    0x28(%%rdi),%%r15;"
+        "mov    %%esi,%%eax;"
+        "mov    %%r8,%%rsp;"
+        "mov    %%r9,%%rbp;"
+        "jmpq    *%%rdx;"
+        : "+r"(temp)
+        : "r"(env)
+        );
 }
