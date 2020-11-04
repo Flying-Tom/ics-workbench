@@ -105,11 +105,12 @@ int asm_setjmp(asm_jmp_buf env)
         "retq;"
         );*/
         
-    int64_t temp;
+    int temp=0;
     asm(
-        "push   %1;"
-        "mov    %1,(%0);"
-        "mov    %%rsp,8(%0);"
+        "push   %%rcx;"
+        "mov    %%rcx,(%0);"
+        "mov    %%rdx,0(%0);"
+        "mov    %%rbx,8(%0);"
         "mov    %%rbp,16(%0);"
         "mov    %%rbx,24(%0);"
         "mov    %%r12,32(%0);"
@@ -117,8 +118,8 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r14,48(%0);"
         "mov    %%r15,56(%0);"
         "xor    %%rax,%%rax;"
-        "jmp    *%1"
-        : "+r"(temp)
+        "jmp    *%%rcx"
+        : "=r"(temp)
         : "r"(env)
         );
     return temp;
