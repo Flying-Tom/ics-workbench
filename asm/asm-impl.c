@@ -104,7 +104,7 @@ int asm_setjmp(asm_jmp_buf env)
         "addq    $0x8,%%rsp;"
         "retq;"
         );*/
-    int temp;
+    int temp=0;
     asm(
         "push   $0;"
         "add    $4,%%esp;"
