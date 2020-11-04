@@ -106,7 +106,7 @@ int asm_setjmp(asm_jmp_buf env)
         );*/
     int temp=0;
     asm(
-        "push   $0;"
+        "pushl   $0;"
         "add    $4,%%esp;"
         "mov    0x4(%%esp),%%ecx;"
         "mov    0x0(%%esp),%%edx;"
