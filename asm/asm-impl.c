@@ -107,17 +107,17 @@ int asm_setjmp(asm_jmp_buf env)
     int temp=0;
     asm(
         "pushl   $0;"
-        "add    $4,%%esp;"
-        "mov    0x4(%%esp),%%ecx;"
-        "mov    0x0(%%esp),%%edx;"
-        "mov    %%edx,0x0(%%ecx);"
-        "mov    %%ebx,0x4(%%ecx);"
-        "mov    %%esp,0x8(%%ecx);"
-        "mov    %%ebp,0xc(%%ecx);"
-        "mov    %%esi,0x10(%%ecx);"
-        "mov    %%edi,0x14(%%ecx);"
-        "mov    %0,0x18(%%ecx);"
-        "xor    %0,%0;"
+        "addl    $4,%%esp;"
+        "movl    0x4(%%esp),%%ecx;"
+        "movl    0x0(%%esp),%%edx;"
+        "movl    %%edx,0x0(%%ecx);"
+        "movl    %%ebx,0x4(%%ecx);"
+        "movl    %%esp,0x8(%%ecx);"
+        "movl    %%ebp,0xc(%%ecx);"
+        "movl    %%esi,0x10(%%ecx);"
+        "movl    %%edi,0x14(%%ecx);"
+        "movl    %0,0x18(%%ecx);"
+        "xorl    %0,%0;"
         "ret"
         : "+r"(temp)
         );
