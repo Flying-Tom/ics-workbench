@@ -107,7 +107,7 @@ int asm_setjmp(asm_jmp_buf env)
         
     int temp=0;
     asm(
-        "push   %%rcx;"
+        "push   %0;"
         "mov    %%rcx,(%%rdi);"
         "mov    %%rdx,0(%%rdi);"
         "mov    %%rbx,8(%%rdi);"
@@ -119,7 +119,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r15,56(%%rcx);"
         "xor    %%rax,%%rax;"
         "jmp    *%%rcx"
-        //: "+r"(temp)
+        : "+r"(temp)
         //: "r"(env)
         );
     return temp;
