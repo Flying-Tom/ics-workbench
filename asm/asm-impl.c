@@ -59,29 +59,6 @@ void *asm_memcpy(void *dest, const void *src, size_t n)
 
 int asm_setjmp(asm_jmp_buf env)
 {
-    //return setjmp(env);
-    /*
-    asm(
-        ".plt:"
-        "pushq  0x2fe2(%%rip);"
-        "jmpq   *0x2fe4(%%rip);"
-        "nopl   0x0(%%rax)"
-        "_setjmp:"
-        "jmpq *0x2fe2(%%rip);"
-        "pushq $0x0;"
-        "jmpq   .plt;"
-        "longjmp:"
-        "jmpq   *0x2fd2(%%rip);"
-        "pushq  $0x2;"
-        "jmpq   .plt;"
-        );
-    asm(
-        "subq    $0x8,%%rsp;"
-        "callq  _setjmp;"
-        "addq    $0x8,%%rsp;"
-        "retq;"
-        );*/
-
     int temp = 0;
     asm(
         "mov    %1,%%rdi;"
@@ -105,7 +82,6 @@ int asm_setjmp(asm_jmp_buf env)
 
 void asm_longjmp(asm_jmp_buf env, int val)
 {
-    //longjmp(env, val);
     asm(
         "mov    %1,%%rdi;"
         "mov    (%%rdi),%%rcx;"
