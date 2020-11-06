@@ -71,14 +71,12 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r13,40(%%rdi);"
         "mov    %%r14,48(%%rdi);"
         "mov    %%r15,56(%%rdi);"
-        "mov    %0,64(%%rdi);"
         "xor    %0,%0;"
-        //"push   %%rip;"
-        "pop    64(%%rdi);"
-        : "=r"(temp)
+        "mov    %0,64(%%rdi);"
+        "mov    64(%%rdi),%0;"
+        : "+r"(temp)
         : "r"(env)
-        : "rdi"
-        );
+        : "rdi");
     return temp;
 }
 
@@ -98,6 +96,5 @@ void asm_longjmp(asm_jmp_buf env, int val)
         "mov    72(%%rdi),%0;"
         "jmpq    64(%%rdi);"
         : "+r"(val)
-        : "r"(env)
-        );
+        : "r"(env));
 }
