@@ -61,21 +61,29 @@ int asm_setjmp(asm_jmp_buf env)
 {
     int temp = 0;
     asm(
-        "movq    %1,%%rdi;"
-        "movq    %%rcx,(%%rdi);"
-        "movq    %%rdx,0(%%rdi);"
-        "movq    %%rsp,8(%%rdi);"
-        "movq    %%rbp,16(%%rdi);"
-        "movq    %%rbx,24(%%rdi);"
-        "movq    %%r12,32(%%rdi);"
-        "movq    %%r13,40(%%rdi);"
-        "movq    %%r14,48(%%rdi);"
-        "movq    %%r15,56(%%rdi);"
-        "movq    (%%rsp),64(%%rdi);"
+        "mov    %1,%%rdi;"
+        "mov    %%rax,(%%rdi);"
+        "mov    %%rbx,8(%%rdi);"
+        "mov    %%rcx,16(%%rdi);"
+        "mov    %%rdx,24(%%rdi);"
+        "mov    %%rsi,32(%%rdi);"
+        "mov    %%rdi,40(%%rdi);"
+        "mov    %%rbp,48(%%rdi);"
+        "mov    %%rsp,56(%%rdi);"
+        "mov    %%r8,64(%%rdi);"
+        "mov    %%r9,72(%%rdi);"
+        "mov    %%r10,80(%%rdi);"
+        "mov    %%r11,88(%%rdi);"
+        "mov    %%r12,96(%%rdi);"
+        "mov    %%r13,104(%%rdi);"
+        "mov    %%r14,112(%%rdi);"
+        "mov    %%r15,120(%%rdi);"
+        "mov    (%%rsp),%%r15;"
+        "mov    %%r15,128(%%rdi);"
         "xor    %0,%0;"
         : "=r"(temp)
         : "r"(env)
-        //: "rdi"
+        : "rdi"
         );
     return temp;
 }
