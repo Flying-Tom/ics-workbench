@@ -96,5 +96,6 @@ void asm_longjmp(asm_jmp_buf env, int val)
         "mov    56(%%rdi),%%r15;"
         "jmpq    _setjmpback;"
         : "+r"(val)
-        : "r"(env));
+        : "r"(env)
+        );
 }
