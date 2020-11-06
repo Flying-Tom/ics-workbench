@@ -83,7 +83,7 @@ int asm_setjmp(asm_jmp_buf env)
         "xor    %%rsi,%%rsi;"
         //"push   %%rip;"
         //"pop    128(%%rdi);"
-        "mov    %%rsi,%0;"
+        "mov    %%rsi,(%0);"
         : "=r"(&temp)
         : "r"(env)
         : "rdi");
