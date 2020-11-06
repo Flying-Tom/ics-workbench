@@ -66,7 +66,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%rbx,8(%%rdi);"
         "mov    %%rcx,16(%%rdi);"
         "mov    %%rdx,24(%%rdi);"
-        "mov    %%rsi,32(%%rdi);"
+        //"mov    %%rsi,32(%%rdi);"
         "mov    %%rdi,40(%%rdi);"
         "mov    %%rbp,48(%%rdi);"
         "mov    %%rsp,56(%%rdi);"
@@ -80,7 +80,9 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r15,120(%%rdi);"
         "mov    (%%rsp),%%r15;"
         "mov    %%r15,128(%%rdi);"
-        "xor    %0,%0;"
+        "mov    %%rsi,32(%%rdi);"
+        "xor    %%rsi,%%rsi;"
+        "mov    %%rsi,%0;"
         : "=r"(temp)
         : "r"(env)
         : "rdi");
