@@ -71,8 +71,6 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    (%%rsp),%%r15;"
         "mov    %%r15,56(%%rdi);"
         "xor    %%rax,%%rax;"
-        : "=r"(temp)
-        : "r"(env)
         :
 
     );
