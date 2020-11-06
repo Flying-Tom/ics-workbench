@@ -61,18 +61,16 @@ int asm_setjmp(asm_jmp_buf env)
 {
     int64_t temp = 0;
     asm(
-        "mov    %%rbx,(%1);"
-        "mov    %%rbp,8(%1);"
-        "mov    %%rsp,16(%1);"
-        "mov    %%r12,24(%1);"
-        "mov    %%r13,32(%1);"
-        "mov    %%r14,40(%1);"
-        "mov    %%r15,48(%1);"
+        "mov    %%rbx,(%%rdi);"
+        "mov    %%rbp,8(%%rdi);"
+        "mov    %%rsp,16(%%rdi);"
+        "mov    %%r12,24(%%rdi);"
+        "mov    %%r13,32(%%rdi);"
+        "mov    %%r14,40(%%rdi);"
+        "mov    %%r15,48(%%rdi);"
         "mov    (%%rsp),%%r15;"
-        "mov    %%r15,56(%1);"
-        "xor    %0,%0;"
-        : "=r"(temp)
-        : "r"(env)
+        "mov    %%r15,56(%%rdi);"
+        "xor    %rax,%rax;"
         :
 
     );
