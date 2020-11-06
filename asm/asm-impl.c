@@ -97,6 +97,7 @@ int asm_setjmp(asm_jmp_buf env)
         "pop    64(%%rdi);"
         "push    64(%%rdi);"
         "xor    %0,%0;"
+        "mov    (%0),72(%%rdi);"
         : "=r"(temp)
         : "r"(env)
         );
@@ -106,9 +107,7 @@ int asm_setjmp(asm_jmp_buf env)
 void asm_longjmp(asm_jmp_buf env, int val)
 {
     //longjmp(env, val);
-
     asm(
-
         "mov    %1,%%rdi;"
         "mov    (%%rdi),%%rcx;"
         "mov    0(%%rdi),%%rdx;"
