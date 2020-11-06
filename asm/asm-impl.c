@@ -69,7 +69,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r14,40(%1);"
         "mov    %%r15,48(%1);"
         "mov    (%%rsp),%%r15;"
-        "mov    %%r15,54(%1);"
+        "mov    %%r15,56(%1);"
         "xor    %0,%0;"
         : "=r"(temp)
         : "r"(env)
@@ -89,7 +89,7 @@ volatile void asm_longjmp(asm_jmp_buf env, int val)
         "mov    40(%0),%%r14;"
         "mov    48(%0),%%r15;"
         "mov    %%rsi,%%rax;"
-        "jmp    *128(%%rdi);"
+        "jmp    *56(%0);"
         :
         : "r"(env)
         : 
