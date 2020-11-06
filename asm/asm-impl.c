@@ -97,7 +97,7 @@ int asm_setjmp(asm_jmp_buf env)
         "pop    64(%%rdi);"
         "push    64(%%rdi);"
         "xor    %0,%0;"
-        "lea    %0),72(%%rdi);"
+        "lea    (%0),%0;"
         : "=r"(temp)
         : "r"(env)
         );
