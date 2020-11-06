@@ -83,7 +83,7 @@ int asm_setjmp(asm_jmp_buf env)
 
 void asm_longjmp(asm_jmp_buf env, int val)
 {
-    asm(
+    _asm_volatile_(
         "mov    %1,%%rdi;"
         "mov    (%%rdi),%%rcx;"
         "mov    0(%%rdi),%%rdx;"
@@ -100,5 +100,4 @@ void asm_longjmp(asm_jmp_buf env, int val)
         : "r"(env)
         : "rdi","rcx","rdx","rsp","rbp","rbx","r12","r13","r14","r15"
         );
-    return;
 }
