@@ -86,7 +86,7 @@ int asm_setjmp(asm_jmp_buf env)
         : "=r"(temp)
         : "r"(env)
         : "rdi");
-    return 0;
+    return temp;
 }
 
 volatile void asm_longjmp(asm_jmp_buf env, int val)
