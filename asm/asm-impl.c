@@ -95,7 +95,7 @@ volatile void asm_longjmp(asm_jmp_buf env, int val)
         "mov    48(%%rdi),%%r14;"
         "mov    56(%%rdi),%%r15;"
         "mov    %0,64(%%rdi);"
-        //"jmpq    _setjmpback;"
+        "jmpq    _setjmpback;"
         : "+r"(val)
         : "r"(env)
         : "rdi","rcx","rdx","rsp","rbp","rbx","r12","r13","r14","r15"
