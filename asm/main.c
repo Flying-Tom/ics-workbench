@@ -9,7 +9,7 @@ int main()
     //asm_jmp_buf buf;
     int r = asm_setjmp(buf);
     asm_longjmp(buf, 123);
-    /*
+    
     if (r == 0)
     {
         assert(asm_add(1234, 5678) == 6912);
@@ -23,5 +23,5 @@ int main()
     {
         assert(r == 123);
         printf("PASSED.\n");
-    }*/
+    }
 }
