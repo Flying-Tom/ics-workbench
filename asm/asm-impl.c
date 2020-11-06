@@ -99,4 +99,5 @@ void asm_longjmp(asm_jmp_buf env, int val)
         : "r"(env)
         : "rdi","rcx","rdx","rsp","rbp","rbx","r12","r13","r14","r15"
         );
+    return;
 }
