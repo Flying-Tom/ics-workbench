@@ -94,7 +94,7 @@ volatile void asm_longjmp(asm_jmp_buf env, int val)
         "jmp    *56(%%rdi);"
         :
         :
-        :
+        
 
     );
 }
