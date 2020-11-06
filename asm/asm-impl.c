@@ -81,7 +81,7 @@ int asm_setjmp(asm_jmp_buf env)
     return temp;
 }
 
-void asm_longjmp(asm_jmp_buf env, int val)
+volatile void asm_longjmp(asm_jmp_buf env, int val)
 {
     asm(
         "mov    %1,%%rdi;"
