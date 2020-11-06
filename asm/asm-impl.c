@@ -93,7 +93,7 @@ volatile void asm_longjmp(asm_jmp_buf env, int val)
         "mov    %1,%%rax;"
         "jmp    *56(%0);"
         :
-        : "r"(env),"r"(val)
+        : "r"(env), "r"(val)
         :
 
     );
