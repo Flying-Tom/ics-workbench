@@ -78,12 +78,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r13,104(%%rdi);"
         "mov    %%r14,112(%%rdi);"
         "mov    %%r15,120(%%rdi);"
-        //"mov    (%%rsp),%%r15;"
-        //"mov    %%r15,128(%%rdi);"
-        "xor    %%rsi,%%rsi;"
-        //"push   %%rip;"
-        //"pop    128(%%rdi);"
-        //"mov    %%rsi,(%0);"
+        "xor    %0,%0;"
         : "=r"(&temp)
         : "r"(env)
         : "rdi");
