@@ -71,6 +71,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r13,40(%%rdi);"
         "mov    %%r14,48(%%rdi);"
         "mov    %%r15,56(%%rdi);"
+        "push   %%rsi;"
         "pop    64(%%rdi);"
         "push    64(%%rdi);"
         "xor    %0,%0;"
