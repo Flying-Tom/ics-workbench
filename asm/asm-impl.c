@@ -80,7 +80,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r15,120(%%rdi);"
         "mov    (%%rsp),%%r15;"
         "mov    %%r15,128(%%rdi);"
-        //"mov    %%rsi,32(%%rdi);"
+        "mov    %%rsi,32(%%rdi);"
         //"xor    %%rsi,%%rsi;"
         //"mov    %%rsi,%0;"
         : "=r"(temp)
