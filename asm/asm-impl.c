@@ -83,7 +83,7 @@ int asm_setjmp(asm_jmp_buf env)
 
 void asm_longjmp(asm_jmp_buf env, int val)
 {
-    _asm_volatile_(
+    __asm__ __volatile__(
         "mov    %1,%%rdi;"
         "mov    (%%rdi),%%rcx;"
         "mov    0(%%rdi),%%rdx;"
