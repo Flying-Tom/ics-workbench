@@ -97,7 +97,7 @@ volatile void asm_longjmp(asm_jmp_buf env, int val)
         "mov    16(%%rdi),%%rcx;"
         "mov    24(%%rdi),%%rdx;"
         //"mov    32(%%rdi),%%rsi;"
-        "mov    40(%%rdi),%%rdi;"
+        //"mov    40(%%rdi),%%rdi;"
         "mov    48(%%rdi),%%rbp;"
         "mov    56(%%rdi),%%rsp;"
         "mov    64(%%rdi),%%r8;"
