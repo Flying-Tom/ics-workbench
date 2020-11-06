@@ -61,54 +61,37 @@ int asm_setjmp(asm_jmp_buf env)
 {
     int64_t temp = 0;
     asm(
-        "mov    %%rax,(%1);"
-        "mov    %%rbx,8(%1);"
-        "mov    %%rcx,16(%1);"
-        "mov    %%rdx,24(%1);"
-        "mov    %%rsi,32(%1);"
-        "mov    %%rdi,40(%1);"
-        "mov    %%rbp,48(%1);"
-        "mov    %%rsp,56(%1);"
-        "mov    %%r8,64(%1);"
-        "mov    %%r9,72(%1);"
-        "mov    %%r10,80(%1);"
-        "mov    %%r11,88(%1);"
-        "mov    %%r12,96(%1);"
-        "mov    %%r13,104(%1);"
-        "mov    %%r14,112(%1);"
-        "mov    %%r15,120(%1);"
+        "mov    %%rbx,(%1);"
+        "mov    %%rbp,8(%1);"
+        "mov    %%rsp,16(%1);"
+        "mov    %%r12,24(%1);"
+        "mov    %%r13,32(%1);"
+        "mov    %%r14,40(%1);"
+        "mov    %%r15,48(%1);"
         "mov    (%%rsp),%%r15;"
-        "mov    %%r15,128(%1);"
+        "mov    %%r15,54(%1);"
         "xor    %0,%0;"
         : "=r"(temp)
         : "r"(env)
-        : "rdi");
+        : "rdi"
+        );
     return temp;
 }
 
 volatile void asm_longjmp(asm_jmp_buf env, int val)
 {
     asm(
-        "mov    (%%rdi),%%rax;"
-        "mov    8(%%rdi),%%rbx;"
-        "mov    16(%%rdi),%%rcx;"
-        "mov    24(%%rdi),%%rdx;"
-        //"mov    32(%%rdi),%%rsi;"
-        //"mov    40(%%rdi),%%rdi;"
-        "mov    48(%%rdi),%%rbp;"
-        "mov    56(%%rdi),%%rsp;"
-        "mov    64(%%rdi),%%r8;"
-        "mov    72(%%rdi),%%r9;"
-        "mov    80(%%rdi),%%r10;"
-        "mov    88(%%rdi),%%r11;"
-        "mov    96(%%rdi),%%r12;"
-        "mov    104(%%rdi),%%r13;"
-        "mov    112(%%rdi),%%r14;"
-        "mov    120(%%rdi),%%r15;"
+        "mov    (%1),%%rbx;"
+        "mov    8(%1),%%rbp;"
+        "mov    16(%1),%%rsp;"
+        "mov    24(%1),%%r12;"
+        "mov    32(%1),%%r13;"
+        "mov    40(%1),%%r14;"
+        "mov    48(%1),%%r15;"
         "mov    %%rsi,%%rax;"
         "jmp    *128(%%rdi);"
         :
-        : 
+        : "r"(env)
         : 
         );
 }
