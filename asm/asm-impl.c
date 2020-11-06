@@ -90,7 +90,7 @@ int asm_setjmp(asm_jmp_buf env)
 volatile void asm_longjmp(asm_jmp_buf env, int val)
 {
     asm(
-        "mov    %1,%%rdi;"
+        "mov    %0,%%rdi;"
         "mov    (%%rdi),%%rax;"
         "mov    8(%%rdi),%%rbx;"
         "mov    16(%%rdi),%%rcx;"
