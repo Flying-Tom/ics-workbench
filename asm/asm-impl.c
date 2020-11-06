@@ -70,7 +70,7 @@ int asm_setjmp(asm_jmp_buf env)
         "mov    %%r15,48(%%rdi);"
         "mov    (%%rsp),%%r15;"
         "mov    %%r15,56(%%rdi);"
-        "xor    %rax,%rax;"
+        "xor    %%rax,%%rax;"
         : "=r"(temp)
         : "r"(env)
         :
