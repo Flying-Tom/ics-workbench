@@ -73,9 +73,9 @@ int asm_setjmp(asm_jmp_buf env)
         "movq    %%r15,56(%%rdi);"
         "movq    (%%rsp),64(%%rdi);"
        // "xor    %0,%0;"
-        //: "+r"(temp)
-       // : "r"(env)
-       // : "rdi"
+        : "+r"(temp)
+        : "r"(env)
+        : "rdi"
         );
     return temp;
 }
