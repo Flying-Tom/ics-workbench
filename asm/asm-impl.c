@@ -83,8 +83,7 @@ int asm_setjmp(asm_jmp_buf env)
         "xor    %0,%0;"
         : "=r"(temp)
         : "r"(env)
-        : "rdi"
-        );
+        : "rdi");
     return temp;
 }
 
@@ -92,19 +91,24 @@ volatile void asm_longjmp(asm_jmp_buf env, int val)
 {
     asm(
         "mov    %1,%%rdi;"
-        "mov    (%%rdi),%%rcx;"
-        "mov    0(%%rdi),%%rdx;"
-        "mov    8(%%rdi),%%rsp;"
-        "mov    16(%%rdi),%%rbp;"
-        "mov    24(%%rdi),%%rbx;"
-        "mov    32(%%rdi),%%r12;"
-        "mov    40(%%rdi),%%r13;"
-        "mov    48(%%rdi),%%r14;"
-        "mov    56(%%rdi),%%r15;"
-        "mov    %0,64(%%rdi);"
-        "jmpq    _setjmpback;"
-        : "+r"(val)
+        "mov    (%%rdi),%%rax;"
+        "mov    8(%%rdi),%%rbx;"
+        "mov    16(%%rdi),%%rcx;"
+        "mov    24(%%rdi),%%rdx;"
+        "mov    32(%%rdi),%%rsi;"
+        "mov    40(%%rdi),%%rdi;"
+        "mov    48(%%rdi),%%rbp;"
+        "mov    56(%%rdi),%%rsp;"
+        "mov    64(%%rdi),%%r8;"
+        "mov    72(%%rdi),%%r9;"
+        "mov    80(%%rdi),%%r10;"
+        "mov    88(%%rdi),%%r11;"
+        "mov    96(%%rdi),%%r12;"
+        "mov    104(%%rdi),%%r13;"
+        "mov    112(%%rdi),%%r14;"
+        "mov    120(%%rdi),%%r15;"
+        "jmp    128(%%rdi)"
+        :
         : "r"(env)
-        : "rdi","rcx","rdx","rsp","rbp","rbx","r12","r13","r14","r15"
-        );
+        : "rdi", "rcx", "rdx", "rsp", "rbp", "rbx", "r12", "r13", "r14", "r15");
 }
