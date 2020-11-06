@@ -73,7 +73,7 @@ int asm_setjmp(asm_jmp_buf env)
         "xor    %0,%0;"
         : "=r"(temp)
         : "r"(env)
-        : "rdi"
+        : 
         );
     return temp;
 }
