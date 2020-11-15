@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <assert.h>
-
+/*
 int64_t asm_add(int64_t a, int64_t b)
 {
     int64_t temp ;
@@ -31,4 +31,4 @@ int main()
     assert(asm_add(114, 115) == 229);
     int64_t fff = std_add(0x100000000, 0x100000000);
     fff++;
-}
+}*/
