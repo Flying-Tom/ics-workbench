@@ -9,7 +9,7 @@ struct  my_jmp_buf_tag
     my_jmp_buf __jmp_buf;
 };
 typedef struct my_jmp_buf_tag my_jmp_buf[1];
-#define asm_jmp_buf my_jmp_buf
+#define asm_jmp_buf jmp_buf
 asm_jmp_buf buf;
 
 int64_t asm_add(int64_t a, int64_t b);
