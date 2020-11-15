@@ -23,6 +23,7 @@ int64_t std_add(int64_t a,int64_t b)
 {
     return a+b;
 }
+/*
 int main()
 {
     //assert(inc(1) == 2);
@@ -30,4 +31,4 @@ int main()
     assert(asm_add(114, 115) == 229);
     //int64_t fff = std_add(0x100000000, 0x100000000);
     //fff++;
-}
+}*/
