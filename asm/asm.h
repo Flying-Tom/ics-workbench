@@ -8,7 +8,7 @@ struct  my_jmp_buf_tag
 {
     my_jmp_buf __jmp_buf;
 };
-typedef struct my_jmp_buf_tag my_jmp_buf[1];
+typedef struct my_jmp_buf_tag jmp_buf[1];
 #define asm_jmp_buf jmp_buf
 asm_jmp_buf buf;
 
