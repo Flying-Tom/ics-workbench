@@ -6,7 +6,7 @@
 typedef long int my_jmp_buf[8];
 struct  my_jmp_buf_tag
 {
-    my__jmp_buf __jmp_buf;
+    my__jmp_buf my_jmp_buf;
 };
 typedef struct my_jmp_buf_tag my_jmp_buf[1];
 #define asm_jmp_buf jmp_buf
