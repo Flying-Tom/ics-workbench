@@ -20,7 +20,7 @@ int *sieve(int n)
         if (is_prime[i])
             *p++ = i;
 
-        for (int j = 1; j <= cnt && i * *(prime + j) <= n; j++)
+        for (int j = 1; j <= p - prime && i * *(prime + j) <= n; j++)
         {
             is_prime[i * *(prime + j)] = false;
             if (i % *(prime + j) == 0)
