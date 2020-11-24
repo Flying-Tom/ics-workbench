@@ -22,7 +22,7 @@ int *sieve(int n)
         for (int j = 1; j <= p - prime && i * *(prime + j) <= n; j++)
         {
             is_prime[i * *(prime + j)] = false;
-            if (i % *(prime + j) == 0)
+            if (i % prime[j] == 0)
                 break;
         }
     }
