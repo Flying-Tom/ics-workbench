@@ -22,10 +22,10 @@ int *sieve(int n)
             *p++ = i;
             cnt++;
         }
-        for (int j = 1; j <= cnt && i * *(p - cnt + j) <= n; j++)
+        for (int j = 1; j <= cnt && i * *(p - cnt - 1 + j) <= n; j++)
         {
-            is_prime[i * *(p - cnt + j)] = false;
-            if (i % *(p - cnt + j) == 0)
+            is_prime[i * *(p - cnt - 1 + j)] = false;
+            if (i % *(p - cnt - 1 + j) == 0)
                 break;
         }
     }
