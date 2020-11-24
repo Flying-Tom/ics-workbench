@@ -12,8 +12,9 @@ int *sieve(int n)
 {
     assert(n + 1 < N);
     int *p = primes, cnt = 0;
+    /*
     for (int i = 0; i <= n; i++)
-        is_prime[i] = true;
+        is_prime[i] = true;*/
     is_prime[1] = false;
     for (int i = 2; i <= n; i++)
     {
