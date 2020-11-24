@@ -22,7 +22,8 @@ int *sieve(int n)
             *p++ = i;
             cnt++;
         }
-        temp = *(p - cnt + j) for (int j = 1; j <= cnt && i * temp <= n; j++)
+        temp = *(p - cnt + j);
+        for (int j = 1; j <= cnt && i * temp <= n; j++)
         {
             is_prime[i * temp] = false;
             if (i % temp == 0)
