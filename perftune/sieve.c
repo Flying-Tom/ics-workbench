@@ -14,6 +14,7 @@ int *sieve(int n)
     int *p = primes, *prime = primes - 1, temp;
     for (int i = 0; i <= n; i++)
         is_prime[i] = true;
+    memset(is_prime,0,sizeof(is_prime));
     is_prime[1] = false;
     for (int i = 2; i <= n; i++)
     {
