@@ -14,18 +14,17 @@ int *sieve(int n)
     int *p = primes, *prime = primes - 1, temp;
     memset(is_prime, 1, sizeof(is_prime));
     is_prime[1] = false;
-    *p++ = 2;
-    *p++ = 3;
-    for (int i = 4; i <= n; i++)
+    for (int i = 2; i <= n; i++)
     {
         if (is_prime[i])
             *p++ = i;
-
-        for (int j = 1; i * prime[j] <= n; j++)
+        temp = i * prime[1]
+        for (int j = 1; temp <= n; j++)
         {
-            is_prime[i * prime[j]] = false;
-            if (!(i % prime[j]))
+            is_prime[temp] = false;
+            if ( !(i % prime[j] ))
                 break;
+            temp = i * prime[j+1];
         }
     }
     return primes;
