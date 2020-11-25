@@ -18,13 +18,12 @@ int *sieve(int n)
     {
         if (is_prime[i])
             *p++ = i;
-        temp = i * prime[1];
-        for (int j = 1; temp <= n; j++)
+        
+        for (int j = 1; i * prime[j] <= n; j++)
         {
-            is_prime[temp] = false;
+            is_prime[i * prime[j]] = false;
             if ( !(i % prime[j] ))
                 break;
-            temp = i * prime[j+1];
         }
     }
     return primes;
