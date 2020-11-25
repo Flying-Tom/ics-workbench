@@ -5,28 +5,29 @@
 
 #define N 10000000
 
-static bool is_prime[N];
+static int flags[N / 96 + 1];
 static int primes[N];
 
 int *sieve(int n)
 {
     assert(n + 1 < N);
-    int *p = primes, *prime = primes - 1, temp;
     memset(is_prime, 1, sizeof(is_prime));
-    is_prime[1] = false;
-    for (int i = 2; i <= n; i++)
+    int itemp=5,jtemp=0,cnt=1;
+    primes[0]=2;
+    primes[1]=3;
+    for (int i = 0; itemp <= n; i++)
     {
-        if (is_prime[i])
-            *p++ = i;
-        else
-            continue;
-        
-        for (int j = 1; j <= p - prime && i * prime[j] <= n; j++)
+        if (!(flags[i>>5]&(1<<(i&31))))
+            primes[++cnt-1] = itemp;
+        for (int j = 2; j <= cnt && itemp * prime[j] <= n; j++)
         {
-            is_prime[i * prime[j]] = false;
-            if (i % prime[j] == 0)
+            jtemp = (itemp * primes[j] - 5) >> 1;
+            jtemp - = jtemp / 3;
+            flags[jtemp>>5] | = 1<<(jtemp&31);
+            if (!(itemp % primes[j]))
                 break;
         }
+        itemp+=2 + ((i&1) << 1);
     }
     return primes;
 }
