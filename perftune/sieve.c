@@ -15,7 +15,7 @@ int *sieve(int n)
     int itemp = 5, jtemp = 0, cnt = 1;
     primes[0] = 2;
     primes[1] = 3;
-    for (int i = 3; itemp <= n; i++)
+    for (int i = 0; itemp <= n; i++)
     {
         if (is_prime[i])
             primes[++cnt] = itemp;
