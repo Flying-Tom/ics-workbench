@@ -26,8 +26,8 @@ int *sieve(int n)
             *p++ = i;
         for (int j = 2; i * primes[j-1] <= n; j++)
         {
-            is_prime[i * prime[j-1]] = false;
-            if (!(i % prime[j-1]))
+            is_prime[i * primes[j-1]] = false;
+            if (!(i % primes[j-1]))
                 break;
         }
     }
