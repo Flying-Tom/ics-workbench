@@ -18,7 +18,7 @@ int *sieve(int n)
     for (int i = 3; i <= n; i += 2)
         is_prime[2] = true;
     *p++ = 2;
-    for (int i = 3; i <= n; i ++)
+    for (int i = 2; i <= n; i ++)
     {
         if (is_prime[i])
             *p++ = i;
