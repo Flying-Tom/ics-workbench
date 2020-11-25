@@ -20,21 +20,11 @@ int *sieve(int n)
     }
 
     *p++ = 2;
-    for (int i = 6; i <= n; i += 6)
+    for (int i = 3; i <= n; i += 2)
     {
-        i-=1;
         if (is_prime[i])
             *p++ = i;
-        for (int j = 1; i * prime[j] <= n; j++)
-        {
-            is_prime[i * prime[j]] = false;
-            if (!(i % prime[j]))
-                break;
-        }
-        i+=1;
-        if (is_prime[i])
-            *p++ = i;
-        for (int j = 1; i * prime[j] <= n; j++)
+        for (int j = 2; i * prime[j] <= n; j++)
         {
             is_prime[i * prime[j]] = false;
             if (!(i % prime[j]))
