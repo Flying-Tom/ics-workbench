@@ -11,19 +11,19 @@ static int primes[N];
 int *sieve(int n)
 {
     assert(n + 1 < N);
-    int *p = primes, *prime = primes - 1, temp;
+    int *p = primes, temp;
     memset(is_prime, 1, sizeof(is_prime));
     is_prime[3] = false;
-    *(p++)=2;
-    for (int i = 3; i <= n; i+=2)
+    *(p++) = 2;
+    for (int i = 3; i <= n; i += 2)
     {
         if (is_prime[i])
             *p++ = i;
-        
+
         for (int j = 1; i * prime[j] <= n; j++)
         {
             is_prime[i * prime[j]] = false;
-            if ( !(i % prime[j] ))
+            if (!(i % prime[j]))
                 break;
         }
     }
