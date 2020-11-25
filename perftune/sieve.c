@@ -15,7 +15,7 @@ int *sieve(int n)
     memset(is_prime, false, sizeof(is_prime));
     is_prime[2] = true;
     is_prime[3] = true;
-    *(p++)=2;
+    *p++=2;
     for (int i = 3; i <= n; i+=2)
     {
         if (is_prime[i])
