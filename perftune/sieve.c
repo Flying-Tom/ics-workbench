@@ -11,7 +11,7 @@ static int primes[N];
 int *sieve(int n)
 {
     assert(n + 1 < N);
-    int *p = primes, *prime = primes - 1, temp;
+    int *p = primes, temp;
     is_prime[2] = true;
     for (int i = 4; i <= n; i += 2)
     {
@@ -24,10 +24,10 @@ int *sieve(int n)
     {
         if (is_prime[i])
             *p++ = i;
-        for (int j = 2; i * prime[j] <= n; j++)
+        for (int j = 2; i * primes[j-1] <= n; j++)
         {
-            is_prime[i * prime[j]] = false;
-            if (!(i % prime[j]))
+            is_prime[i * prime[j-1]] = false;
+            if (!(i % prime[j-1]))
                 break;
         }
     }
