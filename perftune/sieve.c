@@ -17,7 +17,7 @@ int *sieve(int n)
     for (int i = 0; itemp <= n; i++)
     {
         if (!(flags[i >> 5] & (1 << (i & 31))))
-            primes[++cnt - 1] = itemp;
+            primes[++cnt ] = itemp;
         for (int j = 2; j <= cnt && itemp * primes[j] <= n; j++)
         {
             jtemp = (itemp * primes[j] - 5) >> 1;
