@@ -23,7 +23,7 @@ int *sieve(int n)
         {
             jtemp = (itemp * primes[j] - 5) >> 1;
             jtemp -= jtemp / 3;
-            flags[jtemp >> 5] | = 1 << (jtemp & 31);
+            flags[jtemp >> 5] |= 1 << (jtemp & 31);
             if (!(itemp % primes[j]))
                 break;
         }
