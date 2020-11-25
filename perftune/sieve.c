@@ -14,11 +14,11 @@ int *sieve(int n)
     int *p = primes, *prime = primes - 1, temp;
     is_prime[2] = true;
     for (int i = 4; i <= n; i += 2)
-        is_prime[2] = false;
+        is_prime[i] = false;
     for (int i = 3; i <= n; i += 2)
-        is_prime[2] = true;
+        is_prime[i] = true;
     *p++ = 2;
-    for (int i = 2; i <= n; i ++)
+    for (int i = 3; i <= n; i += 2)
     {
         if (is_prime[i])
             *p++ = i;
