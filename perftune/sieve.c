@@ -21,7 +21,7 @@ int *sieve(int n)
             primes[++cnt ] = itemp;
         for (int j = 2; j <= cnt && itemp * primes[j] <= n; j++)
         {
-            is_prime[i * prime[j]] = false;
+            is_prime[i * primes[j]] = false;
             if (!(itemp % primes[j]))
                 break;
         }
