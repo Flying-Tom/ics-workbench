@@ -12,8 +12,8 @@ int *sieve(int n)
 {
     assert(n + 1 < N);
     int *p = primes, *prime = primes - 1, temp;
-    memset(is_prime, 1, sizeof(is_prime));
-    is_prime[3] = false;
+    memset(is_prime, false, sizeof(is_prime));
+    is_prime[3] = true;
     *(p++)=2;
     for (int i = 3; i <= n; i+=2)
     {
