@@ -10,15 +10,19 @@ void cycle_increase(int n) { cycle_cnt += n; }
 
 // TODO: implement the following functions
 
-uint32_t cache_read(uintptr_t addr) {
-  return 0;
+uint32_t cache_read(uintptr_t addr)
+{
+    return 0;
 }
 
-void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask) {
+void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
+{
 }
 
-void init_cache(int total_size_width, int associativity_width) {
+void init_cache(int total_size_width, int associativity_width)
+{
 }
 
-void display_statistic(void) {
+void display_statistic(void)
+{
 }
