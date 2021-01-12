@@ -14,7 +14,9 @@ struct cacheline
 {
     bool flag;
     bool data[BLOCK_WIDTH];
-} Cache;
+};
+
+cacheline* Cache;
 
 uint32_t cache_read(uintptr_t addr)
 {
