@@ -67,6 +67,7 @@ uint32_t cache_read(uintptr_t addr)
 
     for (int i = 0; i < group_size; i++)
     {
+        assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)) + 1);
         if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
             return *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
     }
