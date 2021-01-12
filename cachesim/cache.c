@@ -18,12 +18,12 @@ uint32_t total_line;
 
 typedef struct
 {
-    uint8_t valid_bit;
+    bool valid_bit;
     uint32_t tag;
-    uint8_t data[BLOCK_WIDTH];
+    bool data[BLOCK_WIDTH];
 } cacheline;
 
-struct cacheline *Cache;
+static struct cacheline *Cache;
 
 uint32_t cache_load(uintptr_t addr)
 {
