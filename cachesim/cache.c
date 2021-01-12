@@ -77,7 +77,7 @@ void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 {
     uint32_t group_idx = CACHE_IDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
-    uint32_t *addr_temp = NULL;
+    uint32_t *addr_temp = malloc(sizeof(uint32_t));
     for (int i = 0; i < group_size; i++)
     {
         if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
