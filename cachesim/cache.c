@@ -16,13 +16,6 @@ void cycle_increase(int n) { cycle_cnt += n; }
 uint32_t group_linenum, GROUP_WIDTH, TAG_WIDTH;
 uint32_t total_line;
 
-typedef struct
-{
-    bool valid_bit;
-    uint32_t tag;
-    bool data[BLOCK_WIDTH];
-} cacheline;
-
 struct cacheline *Cache;
 
 uint32_t cache_load(uintptr_t addr)
