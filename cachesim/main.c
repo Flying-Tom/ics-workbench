@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
     init_cache(14, 2);
     puts("replay_trace");
     replay_trace();
-
+    puts("display_statistic");
     display_statistic();
 
     return 0;
