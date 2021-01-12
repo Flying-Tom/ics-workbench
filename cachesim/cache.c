@@ -10,52 +10,104 @@ void cycle_increase(int n) { cycle_cnt += n; }
 
 // TODO: implement the following functions
 
-#define ADDR_TAG(addr) ((addr >> (GROUP_WIDTH + BLOCK_WIDTH)) & mask_with_len(TAG_WIDTH))
-#define ADDR_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(GROUP_WIDTH))
-#define ADDR_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
-uint32_t group_linenum, GROUP_WIDTH, TAG_WIDTH;
+#define CACHE_TAG(addr) ((addr >> (MEM_WIDTH - BLOCK_WIDTH)) & mask_with_len(TAG_WIDTH))
+#define CACHE_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(IDX_WIDTH))
+#define CACHE_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
+#define BLOCK_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(MEM_WIDTH - BLOCK_WIDTH))
+
+uint32_t group_size, GROUP_WIDTH, TAG_WIDTH, IDX_WIDTH;
 uint32_t total_line;
 
 typedef struct
 {
     bool valid_bit;
+    bool dirty_bit;
     uint32_t tag;
-    bool data[BLOCK_WIDTH];
+    uint8_t data[BLOCK_WIDTH];
 } cacheline;
 
 cacheline *Cache;
 
+uint32_t cache_replace(uintptr_t addr)
+{
+    uint32_t group_idx = CACHE_IDX(addr);
+    cacheline *group_base = &Cache[group_size * group_idx];
+    uint32_t idx_ingroup = rand() * rand() / group_size;
+
+    if (group_base[idx_ingroup].dirty_bit)
+        mem_write(BLOCK_IDX(addr), group_base[idx_ingroup].data);
+
+    group_base[idx_ingroup].dirty_bit = false;
+    group_base[idx_ingroup].valid_bit = true;
+    group_base[idx_ingroup].tag = CACHE_TAG(addr);
+    return idx_ingroup;
+}
+
 uint32_t cache_load(uintptr_t addr)
 {
-    return 0;
+    uint32_t group_idx = CACHE_IDX(addr);
+    cacheline *group_base = &Cache[group_size * group_idx];
+    for (int i = 0; i < group_size; i++)
+    {
+        if (!group_base[i].valid_bit)
+        {
+            mem_read(BLOCK_IDX(addr), group_base[i].data);
+            group_base[i].valid_bit = true;
+            group_base[i].tag = CACHE_TAG(addr);
+            return i;
+        }
+    }
+    return cache_replace(addr);
 }
 
 uint32_t cache_read(uintptr_t addr)
 {
-    uint32_t group_idx = ADDR_IDX(addr);
-    cacheline *group_base = &Cache[group_linenum * group_idx];
+    uint32_t group_idx = CACHE_IDX(addr);
+    cacheline *group_base = &Cache[group_size * group_idx];
 
-    for (int i = 0; i < group_linenum; i++)
+    for (int i = 0; i < group_size; i++)
     {
-        if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
-            return *(uint32_t *)group_base[i].data;
+        if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
+            return *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
     }
-    return *(uint32_t *)group_base[cache_load(addr)].data;
+    return *(uint32_t *)&group_base[cache_load(addr)].data[CACHE_INBLOCK(addr)];
 }
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 {
+    uint32_t group_idx = CACHE_IDX(addr);
+    cacheline *group_base = &Cache[group_size * group_idx];
+    uint32_t *addr_temp = NULL;
+    for (int i = 0; i < group_size; i++)
+    {
+        if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
+        {
+            group_base[i].dirty_bit = true;
+            *addr_temp = *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
+            *addr_temp = (*addr_temp & ~wmask) | (data & wmask);
+            return;
+        }
+    }
+    uint32_t idx_ingroup = cache_load(addr);
+    group_base[idx_ingroup].dirty_bit = true;
+    *addr_temp = *(uint32_t *)&group_base[idx_ingroup].data[CACHE_INBLOCK(addr)];
+    *addr_temp = (*addr_temp & ~wmask) | (data & wmask);
 }
 
 void init_cache(int total_size_width, int associativity_width)
 {
     total_line = exp2(total_size_width) / BLOCK_SIZE;
     GROUP_WIDTH = associativity_width;
-    group_linenum = exp2(associativity_width);
+    group_size = exp2(associativity_width);
     Cache = malloc(sizeof(cacheline) * total_line);
+
+    for (int i = 0; i < total_line; i++)
+    {
+        Cache[i].valid_bit = false;
+        Cache[i].dirty_bit = false;
+    }
 }
 
 void display_statistic(void)
 {
-    puts("!!!!!!");
 }
