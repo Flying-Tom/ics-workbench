@@ -10,6 +10,12 @@ void cycle_increase(int n) { cycle_cnt += n; }
 
 // TODO: implement the following functions
 
+struct cacheline
+{
+    bool flag;
+    bool data[BLOCK_WIDTH];
+} Cache;
+
 uint32_t cache_read(uintptr_t addr)
 {
     return 0;
