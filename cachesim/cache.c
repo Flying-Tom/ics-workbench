@@ -37,6 +37,7 @@ uint32_t cache_replace(uintptr_t addr)
     if (group_base[idx_ingroup].dirty_bit)
         mem_write(BLOCK_IDX(addr), group_base[idx_ingroup].data);
 
+    mem_read(BLOCK_IDX(addr), group_base[idx_ingroup].data);
     group_base[idx_ingroup].dirty_bit = false;
     group_base[idx_ingroup].valid_bit = true;
     group_base[idx_ingroup].tag = CACHE_TAG(addr);
