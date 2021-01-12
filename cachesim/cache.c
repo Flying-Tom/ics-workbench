@@ -16,7 +16,7 @@ void cycle_increase(int n) { cycle_cnt += n; }
 #define BLOCK_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(CACHE_WIDTH - BLOCK_WIDTH))
 
 uint32_t group_size, CACHE_WIDTH, TAG_WIDTH, IDX_WIDTH;
-uint32_t total_line;
+uint32_t cache_size;
 
 typedef struct
 {
@@ -97,14 +97,14 @@ void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 void init_cache(int total_size_width, int associativity_width)
 {
     CACHE_WIDTH = total_size_width;
-    total_line = exp2(total_size_width - BLOCK_WIDTH);
+    cache_size = exp2(total_size_width - BLOCK_WIDTH);
     group_size = exp2(associativity_width);
-    Cache = malloc(sizeof(cacheline) * total_line);
+    Cache = malloc(sizeof(cacheline) * cache_size);
     IDX_WIDTH = associativity_width;
     printf("IDX_WIDTH:%u\n", IDX_WIDTH);
     TAG_WIDTH = total_size_width - BLOCK_WIDTH - IDX_WIDTH;
     printf("TAG_WIDTH:%u\n", TAG_WIDTH);
-    for (int i = 0; i < total_line; i++)
+    for (int i = 0; i < cache_size; i++)
     {
         Cache[i].valid_bit = false;
         Cache[i].dirty_bit = false;
