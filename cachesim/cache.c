@@ -52,7 +52,7 @@ void init_cache(int total_size_width, int associativity_width)
     total_line = exp2(total_size_width) / BLOCK_SIZE;
     GROUP_WIDTH = associativity_width;
     group_linenum = exp2(associativity_width);
-    Cache = (cacheline *)malloc(sizeof(cacheline) * total_line);
+    Cache = malloc(sizeof(cacheline) * total_line);
 }
 
 void display_statistic(void)
