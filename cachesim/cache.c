@@ -10,7 +10,7 @@ void cycle_increase(int n) { cycle_cnt += n; }
 
 // TODO: implement the following functions
 
-#define CACHE_TAG(addr) ((addr >> (CACHE_WIDTH - BLOCK_WIDTH)) & mask_with_len(TAG_WIDTH))
+#define CACHE_TAG(addr) ((addr >> (CACHE_WIDTH - IDX_WIDTH - BLOCK_WIDTH)) & mask_with_len(TAG_WIDTH))
 #define CACHE_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(IDX_WIDTH))
 #define CACHE_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
 #define BLOCK_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(CACHE_WIDTH - BLOCK_WIDTH))
