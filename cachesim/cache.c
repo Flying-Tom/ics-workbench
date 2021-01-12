@@ -15,7 +15,7 @@ void cycle_increase(int n) { cycle_cnt += n; }
 #define CACHE_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
 #define BLOCK_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(MEM_WIDTH - BLOCK_WIDTH))
 
-uint32_t group_size, GROUP_WIDTH, TAG_WIDTH, IDX_WIDTH;
+uint32_t group_size, TAG_WIDTH, IDX_WIDTH;
 uint32_t total_line;
 
 typedef struct
@@ -96,8 +96,7 @@ void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 
 void init_cache(int total_size_width, int associativity_width)
 {
-    total_line = exp2(total_size_width) / BLOCK_SIZE;
-    GROUP_WIDTH = associativity_width;
+    total_line = exp2(total_size_width - BLOCK_WIDTH);
     group_size = exp2(associativity_width);
     Cache = malloc(sizeof(cacheline) * total_line);
 
