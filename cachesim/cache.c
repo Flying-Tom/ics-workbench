@@ -102,7 +102,7 @@ void init_cache(int total_size_width, int associativity_width)
     Cache = malloc(sizeof(cacheline) * total_line);
     IDX_WIDTH = (total_size_width - BLOCK_WIDTH) - associativity_width;
     printf("IDX_WIDTH:%u\n", IDX_WIDTH);
-    TAG_WIDTH = MEM_WIDTH - BLOCK_WIDTH - IDX_WIDTH;
+    TAG_WIDTH = total_size_width - BLOCK_WIDTH - IDX_WIDTH;
     printf("TAG_WIDTH:%u\n", TAG_WIDTH);
     for (int i = 0; i < total_line; i++)
     {
