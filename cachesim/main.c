@@ -151,10 +151,11 @@ void replay_trace(void)
 int main(int argc, char *argv[])
 {
     parse_args(argc, argv);
-
+    puts("init_rand");
     init_rand(seed);
+    puts("init_mem");
     init_mem();
-
+    puts("init_cache");
     init_cache(14, 2);
 
     replay_trace();
