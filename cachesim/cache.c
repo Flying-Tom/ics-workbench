@@ -33,7 +33,7 @@ uint32_t cache_load(uintptr_t addr)
 uint32_t cache_read(uintptr_t addr)
 {
     uint32_t group_idx = ADDR_IDX(addr);
-    cacheline *group_base = Cache[group_linenum * group_idx];
+    cacheline *group_base = &Cache[group_linenum * group_idx];
 
     for (int i = 0; i < group_linenum; i++)
     {
