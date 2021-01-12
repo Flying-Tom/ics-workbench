@@ -32,7 +32,7 @@ uint32_t cache_replace(uintptr_t addr)
 {
     uint32_t group_idx = CACHE_IDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
-    uint32_t idx_ingroup = rand() * rand() / group_size;
+    uint32_t idx_ingroup = rand() / group_size;
 
     if (group_base[idx_ingroup].dirty_bit)
         mem_write(BLOCK_IDX(addr), group_base[idx_ingroup].data);
