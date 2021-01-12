@@ -80,9 +80,9 @@ void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
     uint32_t *addr_temp = malloc(sizeof(uint32_t));
     for (int i = 0; i < group_size; i++)
     {
+        assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
         if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
         {
-            assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
             *addr_temp = *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
             *addr_temp = (*addr_temp & ~wmask) | (data & wmask);
             group_base[i].dirty_bit = true;
