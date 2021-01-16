@@ -32,16 +32,16 @@ uint32_t cache_replace(uintptr_t addr)
 {
     uint32_t group_idx = CACHE_IDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
-    uint32_t idx_ingroup = rand() / group_size;
+    uint32_t rand_idx_ingroup = rand() / group_size;
+    uint32_t rand_idx_block = group_idx * group_size + group_base[rand_idx_ingroup].tag;
 
-    if (group_base[idx_ingroup].dirty_bit)
-        mem_write(BLOCK_IDX(addr), group_base[idx_ingroup].data);
+    if (group_base[rand_idx_ingroup].dirty_bit)
+        mem_write(rand_idx_block, group_base[rand_idx_ingroup].data);
 
-    mem_read(BLOCK_IDX(addr), group_base[idx_ingroup].data);
-    group_base[idx_ingroup].dirty_bit = false;
-    group_base[idx_ingroup].valid_bit = true;
-    group_base[idx_ingroup].tag = CACHE_TAG(addr);
-    return idx_ingroup;
+    group_base[rand_idx_block].dirty_bit = false;
+    group_base[rand_idx_block].valid_bit = true;
+    group_base[rand_idx_block].tag = CACHE_TAG(addr);
+    return rand_idx_block;
 }
 
 uint32_t cache_load(uintptr_t addr)
@@ -68,11 +68,12 @@ uint32_t cache_read(uintptr_t addr)
 
     for (int i = 0; i < group_size; i++)
     {
-        assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
+        //assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
         if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
             return *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
     }
-    return *(uint32_t *)&group_base[cache_load(addr)].data[CACHE_INBLOCK(addr)];
+    uint32_t idx_ingroup = cache_load(addr);
+    return *(uint32_t *)&group_base[idx_ingroup].data[CACHE_INBLOCK(addr)];
 }
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
@@ -82,7 +83,7 @@ void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
     uint32_t *addr_temp = malloc(sizeof(uint32_t));
     for (int i = 0; i < group_size; i++)
     {
-        assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
+        //assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
         if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
         {
             *addr_temp = *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
