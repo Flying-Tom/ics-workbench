@@ -64,6 +64,7 @@ uint32_t cache_load(uintptr_t addr)
 
 uint32_t cache_read(uintptr_t addr)
 {
+    puts("cache_read");
     uint32_t group_idx = CACHE_IDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
 
@@ -79,6 +80,7 @@ uint32_t cache_read(uintptr_t addr)
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 {
+    puts("cache_write");
     uint32_t group_idx = CACHE_IDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
     uint32_t *addr_temp = malloc(sizeof(uint32_t));
