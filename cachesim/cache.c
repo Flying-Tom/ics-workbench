@@ -32,11 +32,12 @@ uint32_t cache_replace(uintptr_t addr)
 {
     uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
-    uint32_t rand_idx_ingroup = rand() % group_size;
 
+    uint32_t rand_idx_ingroup = rand() % group_size;
     printf("rand_idx_ingroup:%d\n", rand_idx_ingroup);
 
     uint32_t rand_idx_block = group_idx + (group_base[rand_idx_ingroup].tag << GROUP_WIDTH);
+    printf("rand_idx_block:%d\n", rand_idx_block);
 
     if (group_base[rand_idx_ingroup].dirty_bit)
         mem_write(rand_idx_block, group_base[rand_idx_ingroup].data);
