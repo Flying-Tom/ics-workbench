@@ -120,6 +120,7 @@ void init_cache(int total_size_width, int associativity_width)
     {
         Cache[i].valid_bit = false;
         Cache[i].dirty_bit = false;
+        Cache[i].tag = 0;
     }
     printf("Total number of blocks:%d\n", MEM_SIZE / 64);
 }
