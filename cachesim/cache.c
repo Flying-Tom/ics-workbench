@@ -10,12 +10,12 @@ void cycle_increase(int n) { cycle_cnt += n; }
 
 // TODO: implement the following functions
 
-#define CACHE_TAG(addr) ((addr >> (MEM_WIDTH - IDX_WIDTH - BLOCK_WIDTH)) & mask_with_len(TAG_WIDTH))
-#define CACHE_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(IDX_WIDTH))
-#define CACHE_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
+#define ADDR_TAG(addr) ((addr >> (MEM_WIDTH - GROUP_WIDTH - BLOCK_WIDTH)) & mask_with_len(TAG_WIDTH))
+#define ADDR_GRPIDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(GROUP_WIDTH))
+#define ADDR_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
 #define BLOCK_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(MEM_WIDTH - BLOCK_WIDTH))
 
-uint32_t group_size, CACHE_WIDTH, TAG_WIDTH, IDX_WIDTH;
+uint32_t group_size, ADDR_WIDTH, TAG_WIDTH, GROUP_WIDTH;
 uint32_t cache_size;
 
 typedef struct
@@ -30,24 +30,27 @@ cacheline *Cache;
 
 uint32_t cache_replace(uintptr_t addr)
 {
-    uint32_t group_idx = CACHE_IDX(addr);
+    uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
     uint32_t rand_idx_ingroup = rand() / group_size;
-    uint32_t rand_idx_block = group_idx + (group_base[rand_idx_ingroup].tag << IDX_WIDTH);
+
+    printf("rand_idx_ingroup:%d\n", rand_idx_ingroup);
+
+    uint32_t rand_idx_block = group_idx + (group_base[rand_idx_ingroup].tag << GROUP_WIDTH);
 
     if (group_base[rand_idx_ingroup].dirty_bit)
         mem_write(rand_idx_block, group_base[rand_idx_ingroup].data);
 
-    mem_read(BLOCK_IDX(addr), group_base[rand_idx_ingroup].data);
     group_base[rand_idx_block].dirty_bit = false;
     group_base[rand_idx_block].valid_bit = true;
-    group_base[rand_idx_block].tag = CACHE_TAG(addr);
+    group_base[rand_idx_block].tag = ADDR_TAG(addr);
+    mem_read(BLOCK_IDX(addr), group_base[rand_idx_ingroup].data);
     return rand_idx_block;
 }
 
 uint32_t cache_load(uintptr_t addr)
 {
-    uint32_t group_idx = CACHE_IDX(addr);
+    uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
     for (int i = 0; i < group_size; i++)
     {
@@ -55,7 +58,7 @@ uint32_t cache_load(uintptr_t addr)
         {
             mem_read(BLOCK_IDX(addr), group_base[i].data);
             group_base[i].valid_bit = true;
-            group_base[i].tag = CACHE_TAG(addr);
+            group_base[i].tag = ADDR_TAG(addr);
             return i;
         }
     }
@@ -65,50 +68,49 @@ uint32_t cache_load(uintptr_t addr)
 uint32_t cache_read(uintptr_t addr)
 {
     puts("cache_read");
-    uint32_t group_idx = CACHE_IDX(addr);
+    uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
 
     for (int i = 0; i < group_size; i++)
     {
-        //assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
-        if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
-            return *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
+        //assert(*(uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr)));
+        if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
+            return *(uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)];
     }
     uint32_t idx_ingroup = cache_load(addr);
-    return *(uint32_t *)&group_base[idx_ingroup].data[CACHE_INBLOCK(addr)];
+    return *(uint32_t *)&group_base[idx_ingroup].data[ADDR_INBLOCK(addr)];
 }
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 {
     puts("cache_write");
-    uint32_t group_idx = CACHE_IDX(addr);
+    uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
-    uint32_t *addr_temp = malloc(sizeof(uint32_t));
     for (int i = 0; i < group_size; i++)
     {
-        //assert(*(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + CACHE_INBLOCK(addr)));
-        if (group_base[i].tag == CACHE_TAG(addr) && group_base[i].valid_bit)
+        //assert(*(uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr)));
+        if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
         {
-            *addr_temp = *(uint32_t *)&group_base[i].data[CACHE_INBLOCK(addr)];
+            uint32_t *addr_temp = (uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)];
             *addr_temp = (*addr_temp & ~wmask) | (data & wmask);
             group_base[i].dirty_bit = true;
             return;
         }
     }
     uint32_t idx_ingroup = cache_load(addr);
-    *addr_temp = *(uint32_t *)&group_base[idx_ingroup].data[CACHE_INBLOCK(addr)];
+    uint32_t *addr_temp = (uint32_t *)&group_base[idx_ingroup].data[ADDR_INBLOCK(addr)];
     *addr_temp = (*addr_temp & ~wmask) | (data & wmask);
     group_base[idx_ingroup].dirty_bit = true;
 }
 
 void init_cache(int total_size_width, int associativity_width)
 {
-    CACHE_WIDTH = total_size_width;
+    ADDR_WIDTH = total_size_width;
     cache_size = exp2(total_size_width - BLOCK_WIDTH);
     group_size = exp2(associativity_width);
-    IDX_WIDTH = associativity_width;
-    printf("IDX_WIDTH:%u\n", IDX_WIDTH);
-    TAG_WIDTH = total_size_width - BLOCK_WIDTH - IDX_WIDTH;
+    GROUP_WIDTH = associativity_width;
+    printf("GROUP_WIDTH:%u\n", GROUP_WIDTH);
+    TAG_WIDTH = total_size_width - BLOCK_WIDTH - GROUP_WIDTH;
     printf("TAG_WIDTH:%u\n", TAG_WIDTH);
     Cache = malloc(sizeof(cacheline) * cache_size);
     for (int i = 0; i < cache_size; i++)
