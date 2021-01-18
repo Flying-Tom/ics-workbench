@@ -45,6 +45,7 @@ uint32_t cache_replace(uintptr_t addr)
     group_base[rand_idx_block].valid_bit = true;
     group_base[rand_idx_block].tag = ADDR_TAG(addr);
     mem_read(BLOCK_IDX(addr), group_base[rand_idx_ingroup].data);
+    puts("replace completed!");
     return rand_idx_block;
 }
 
