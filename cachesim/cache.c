@@ -112,7 +112,7 @@ void init_cache(int total_size_width, int associativity_width)
     ADDR_WIDTH = total_size_width;
     cache_size = exp2(total_size_width - BLOCK_WIDTH);
     group_size = exp2(associativity_width);
-    GROUP_WIDTH = associativity_width;
+    GROUP_WIDTH = total_size_width - BLOCK_WIDTH - associativity_width;
     printf("GROUP_WIDTH:%u\n", GROUP_WIDTH);
     TAG_WIDTH = total_size_width - BLOCK_WIDTH - GROUP_WIDTH;
     printf("TAG_WIDTH:%u\n", TAG_WIDTH);
