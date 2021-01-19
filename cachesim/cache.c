@@ -10,10 +10,10 @@ void cycle_increase(int n) { cycle_cnt += n; }
 
 // TODO: implement the following functions
 
-#define ADDR_TAG(addr) ((addr >> (GROUP_WIDTH + BLOCK_WIDTH)) & mask_with_len(TAG_WIDTH))
-#define ADDR_GRPIDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(GROUP_WIDTH))
-#define ADDR_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
 #define BLOCK_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(MEM_WIDTH - BLOCK_WIDTH))
+#define ADDR_TAG(addr) ((BLOCK_IDX(addr) >> GROUP_WIDTH) & mask_with_len(TAG_WIDTH))
+#define ADDR_GRPIDX(addr) (BLOCK_IDX(addr) & mask_with_len(GROUP_WIDTH))
+#define ADDR_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
 
 uint32_t group_size, ADDR_WIDTH, TAG_WIDTH, GROUP_WIDTH;
 uint32_t cache_size;
