@@ -41,7 +41,7 @@ uint32_t cache_replace(uintptr_t addr)
     printf("rand_idx_block:%d\n", rand_idx_block);
 
     if (group_base[rand_idx_ingroup].dirty_bit)
-        mem_write(rand_idx_block, group_base[rand_idx_ingroup].data);
+        mem_write(BLOCK_IDX(addr), group_base[rand_idx_ingroup].data);
 
     group_base[rand_idx_block].dirty_bit = false;
     group_base[rand_idx_block].valid_bit = true;
@@ -109,12 +109,11 @@ void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 
 void init_cache(int total_size_width, int associativity_width)
 {
-    ADDR_WIDTH = total_size_width;
-    cache_size = exp2(total_size_width - BLOCK_WIDTH);
-    group_size = exp2(associativity_width);
-    GROUP_WIDTH = total_size_width - BLOCK_WIDTH - associativity_width;
+    cache_size = exp2(total_size_width - BLOCK_WIDTH);                  //cache的行数
+    group_size = exp2(associativity_width);                             //每组的行数
+    GROUP_WIDTH = total_size_width - BLOCK_WIDTH - associativity_width; //每组的位数
+    TAG_WIDTH = MEM_WIDTH - GROUP_WIDTH - BLOCK_WIDTH;                  //标记的位数
     printf("GROUP_WIDTH:%u\n", GROUP_WIDTH);
-    TAG_WIDTH = MEM_WIDTH - GROUP_WIDTH - BLOCK_WIDTH;
     printf("TAG_WIDTH:%u\n", TAG_WIDTH);
     Cache = malloc(sizeof(cacheline) * cache_size);
     for (int i = 0; i < cache_size; i++)
