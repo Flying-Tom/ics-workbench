@@ -55,13 +55,13 @@ uint32_t cache_load(uintptr_t addr)
     group_base[rand_idx_ingroup].dirty_bit = false;
     group_base[rand_idx_ingroup].valid_bit = true;
     group_base[rand_idx_ingroup].tag = ADDR_TAG(addr);
-    puts("replace completed!");
+    //puts("replace completed!");
     return rand_idx_ingroup;
 }
 
 uint32_t cache_read(uintptr_t addr)
 {
-    puts("cache_read");
+    //puts("cache_read");
     uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
 
@@ -76,7 +76,7 @@ uint32_t cache_read(uintptr_t addr)
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
 {
-    puts("cache_write");
+    //puts("cache_write");
     uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
     for (int i = 0; i < group_size; i++)
