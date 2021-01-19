@@ -15,8 +15,7 @@ void cycle_increase(int n) { cycle_cnt += n; }
 #define ADDR_GRPIDX(addr) (BLOCK_IDX(addr) & mask_with_len(GROUP_WIDTH))
 #define ADDR_INBLOCK(addr) (addr & mask_with_len(BLOCK_WIDTH))
 
-uint32_t group_size, ADDR_WIDTH, TAG_WIDTH, GROUP_WIDTH;
-uint32_t cache_size;
+uint32_t group_size, cache_size, TAG_WIDTH, GROUP_WIDTH;
 
 typedef struct
 {
@@ -41,7 +40,7 @@ uint32_t cache_replace(uintptr_t addr)
     printf("rand_idx_block:%d\n", rand_idx_block);
 
     if (group_base[rand_idx_ingroup].dirty_bit)
-        mem_write(BLOCK_IDX(addr), group_base[rand_idx_ingroup].data);
+        mem_write(rand_idx_block, group_base[rand_idx_ingroup].data);
 
     group_base[rand_idx_block].dirty_bit = false;
     group_base[rand_idx_block].valid_bit = true;
@@ -115,7 +114,7 @@ void init_cache(int total_size_width, int associativity_width)
     TAG_WIDTH = MEM_WIDTH - GROUP_WIDTH - BLOCK_WIDTH;                  //标记的位数
     printf("GROUP_WIDTH:%u\n", GROUP_WIDTH);
     printf("TAG_WIDTH:%u\n", TAG_WIDTH);
-    Cache = malloc(sizeof(cacheline) * cache_size);
+    Cache = (cacheline *)malloc(sizeof(cacheline) * cache_size);
     for (int i = 0; i < cache_size; i++)
     {
         Cache[i].valid_bit = false;
