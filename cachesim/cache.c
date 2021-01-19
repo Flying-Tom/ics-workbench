@@ -79,10 +79,10 @@ uint32_t cache_read(uintptr_t addr)
     {
         //assert(*(uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr)));
         if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
-            return *(uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)];
+            return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
     }
     uint32_t idx_ingroup = cache_load(addr);
-    return *(uint32_t *)&group_base[idx_ingroup].data[ADDR_INBLOCK(addr)];
+    return *(uint32_t *)(group_base[idx_ingroup].data + ADDR_INBLOCK(addr));
 }
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
