@@ -29,27 +29,20 @@ typedef struct
 
 cacheline *Cache;
 
-uint32_t cache_read(uintptr_t addr)
+uint32_t cache_load(uintptr_t addr)
 {
-    puts("cache_read");
+    //puts("cache_load");
     uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
-
-    for (int i = 0; i < group_size; i++)
-    {
-        if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
-            return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
-    }
-    //找不到则装载该块
     for (int i = 0; i < group_size; i++)
     {
         if (!group_base[i].valid_bit)
         {
             mem_read(BLOCK_IDX(addr), group_base[i].data);
             group_base[i].valid_bit = true;
-            group_base[i].valid_bit = false;
+            group_base[i].dirty_bit = false;
             group_base[i].tag = ADDR_TAG(addr);
-            return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
+            return i;
         }
     }
     //若找不到空余块则随机替换
@@ -63,7 +56,22 @@ uint32_t cache_read(uintptr_t addr)
     group_base[rand_idx_ingroup].valid_bit = true;
     group_base[rand_idx_ingroup].tag = ADDR_TAG(addr);
     puts("replace completed!");
-    return *(uint32_t *)(group_base[rand_idx_ingroup].data + ADDR_INBLOCK(addr));
+    return rand_idx_ingroup;
+}
+
+uint32_t cache_read(uintptr_t addr)
+{
+    puts("cache_read");
+    uint32_t group_idx = ADDR_GRPIDX(addr);
+    cacheline *group_base = &Cache[group_size * group_idx];
+
+    for (int i = 0; i < group_size; i++)
+    {
+        if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
+            return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
+    }
+    //找不到则加载块
+    return *(uint32_t *)(group_base[cache_load(addr)].data + ADDR_INBLOCK(addr));
 }
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
@@ -73,10 +81,9 @@ void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
     cacheline *group_base = &Cache[group_size * group_idx];
     for (int i = 0; i < group_size; i++)
     {
-        //assert(*(uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr)));
         if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
         {
-            uint32_t *addr_temp = (uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)];
+            uint32_t *addr_temp = (uint32_t *)group_base[i].data[ADDR_INBLOCK(addr)];
             *addr_temp = (*addr_temp & ~wmask) | (data & wmask);
             group_base[i].dirty_bit = true;
             return;
