@@ -29,47 +29,6 @@ typedef struct
 
 cacheline *Cache;
 
-uint32_t cache_replace(uintptr_t addr)
-{
-    uint32_t group_idx = ADDR_GRPIDX(addr);
-    cacheline *group_base = &Cache[group_size * group_idx];
-
-    uint32_t rand_idx_ingroup = rand() % group_size;
-    printf("rand_idx_ingroup:%d\n", rand_idx_ingroup);
-
-    uint32_t rand_idx_block = group_idx | (group_base[rand_idx_ingroup].tag << GROUP_WIDTH);
-    printf("group_base[rand_idx_ingroup].tag:%d\n", group_base[rand_idx_ingroup].tag);
-    printf("rand_idx_block:%d\n", rand_idx_block);
-
-    if (group_base[rand_idx_ingroup].dirty_bit)
-        mem_write(rand_idx_block, group_base[rand_idx_ingroup].data);
-
-    group_base[rand_idx_block].dirty_bit = false;
-    group_base[rand_idx_block].valid_bit = true;
-    group_base[rand_idx_block].tag = ADDR_TAG(addr);
-    mem_read(BLOCK_IDX(addr), group_base[rand_idx_ingroup].data);
-    puts("replace completed!");
-    return rand_idx_block;
-}
-
-uint32_t cache_load(uintptr_t addr)
-{
-    //puts("cache_load");
-    uint32_t group_idx = ADDR_GRPIDX(addr);
-    cacheline *group_base = &Cache[group_size * group_idx];
-    for (int i = 0; i < group_size; i++)
-    {
-        if (!group_base[i].valid_bit)
-        {
-            mem_read(BLOCK_IDX(addr), group_base[i].data);
-            group_base[i].valid_bit = true;
-            group_base[i].tag = ADDR_TAG(addr);
-            return i;
-        }
-    }
-    return cache_replace(addr);
-}
-
 uint32_t cache_read(uintptr_t addr)
 {
     puts("cache_read");
@@ -81,8 +40,30 @@ uint32_t cache_read(uintptr_t addr)
         if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
             return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
     }
-    uint32_t idx_ingroup = cache_load(addr);
-    return *(uint32_t *)(group_base[idx_ingroup].data + ADDR_INBLOCK(addr));
+    //找不到则装载该块
+    for (int i = 0; i < group_size; i++)
+    {
+        if (!group_base[i].valid_bit)
+        {
+            mem_read(BLOCK_IDX(addr), group_base[i].data);
+            group_base[i].valid_bit = true;
+            group_base[i].valid_bit = false;
+            group_base[i].tag = ADDR_TAG(addr);
+            return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
+        }
+    }
+    //若找不到空余块则随机替换
+    uint32_t rand_idx_ingroup = rand() % group_size;
+
+    if (group_base[rand_idx_ingroup].dirty_bit)
+        mem_write((group_base[rand_idx_ingroup].tag << GROUP_WIDTH) | group_idx, group_base[rand_idx_ingroup].data);
+
+    mem_read(BLOCK_IDX(addr), group_base[rand_idx_ingroup].data);
+    group_base[rand_idx_ingroup].dirty_bit = false;
+    group_base[rand_idx_ingroup].valid_bit = true;
+    group_base[rand_idx_ingroup].tag = ADDR_TAG(addr);
+    puts("replace completed!");
+    return *(uint32_t *)(group_base[rand_idx_ingroup].data + ADDR_INBLOCK(addr));
 }
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
