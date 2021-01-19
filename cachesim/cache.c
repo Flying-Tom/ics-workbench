@@ -9,6 +9,7 @@ static uint64_t cycle_cnt = 0;
 void cycle_increase(int n) { cycle_cnt += n; }
 
 // TODO: implement the following functions
+#define MEM_WIDTH 25
 
 #define BLOCK_IDX(addr) ((addr >> BLOCK_WIDTH) & mask_with_len(MEM_WIDTH - BLOCK_WIDTH))
 #define ADDR_TAG(addr) ((BLOCK_IDX(addr) >> GROUP_WIDTH) & mask_with_len(TAG_WIDTH))
