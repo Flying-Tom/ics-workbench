@@ -71,7 +71,7 @@ uint32_t cache_read(uintptr_t addr)
             return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
     }
     //找不到则加载块
-    return *(uint32_t *)(group_base[cache_load(addr)].data + ADDR_INBLOCK(addr));
+    return *(uint32_t *)(group_base[cache_load(addr)].data + (ADDR_INBLOCK(addr) & ~0x3));
 }
 
 void cache_write(uintptr_t addr, uint32_t data, uint32_t wmask)
