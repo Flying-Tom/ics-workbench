@@ -53,6 +53,7 @@ uint32_t cache_replace(uintptr_t addr)
 
 uint32_t cache_load(uintptr_t addr)
 {
+    puts("cache_load");
     uint32_t group_idx = ADDR_GRPIDX(addr);
     cacheline *group_base = &Cache[group_size * group_idx];
     for (int i = 0; i < group_size; i++)
