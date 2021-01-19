@@ -1,5 +1,6 @@
 #include "common.h"
 #include <inttypes.h>
+#define Print(A) printf(#A ":%d\n", A)
 
 void mem_read(uintptr_t block_num, uint8_t *buf);
 void mem_write(uintptr_t block_num, const uint8_t *buf);
@@ -77,7 +78,6 @@ uint32_t cache_read(uintptr_t addr)
 
     for (int i = 0; i < group_size; i++)
     {
-        //assert(*(uint32_t *)&group_base[i].data[ADDR_INBLOCK(addr)] == *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr)));
         if (group_base[i].tag == ADDR_TAG(addr) && group_base[i].valid_bit)
             return *(uint32_t *)(group_base[i].data + ADDR_INBLOCK(addr));
     }
@@ -113,8 +113,10 @@ void init_cache(int total_size_width, int associativity_width)
     group_size = exp2(associativity_width);                             //每组的行数
     GROUP_WIDTH = total_size_width - BLOCK_WIDTH - associativity_width; //每组的位数
     TAG_WIDTH = MEM_WIDTH - GROUP_WIDTH - BLOCK_WIDTH;                  //标记的位数
-    printf("GROUP_WIDTH:%u\n", GROUP_WIDTH);
-    printf("TAG_WIDTH:%u\n", TAG_WIDTH);
+    Print(cache_size);
+    Print(group_size);
+    Print(GROUP_WIDTH);
+    Print(TAG_WIDTH);
     Cache = (cacheline *)malloc(sizeof(cacheline) * cache_size);
     for (int i = 0; i < cache_size; i++)
     {
